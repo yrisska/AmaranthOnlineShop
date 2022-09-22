@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AmaranthShopOnline.Domain
+namespace AmaranthOnlineShop.Domain
 {
     public abstract class BaseEntity
     {
