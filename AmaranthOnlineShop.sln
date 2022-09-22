@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmaranthOnlineShop.API", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmaranthOnlineShop.Application", "AmaranthOnlineShop.Application\AmaranthOnlineShop.Application.csproj", "{D32716F4-F856-47A2-A74F-87CD518C9408}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmaranthOnlineShop.Domain", "AmaranthShopOnline.Domain\AmaranthOnlineShop.Domain.csproj", "{477D84F7-C3E8-47A6-96E1-445F72386E2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmaranthOnlineShop.Domain", "AmaranthOnlineShop.Domain\AmaranthOnlineShop.Domain.csproj", "{477D84F7-C3E8-47A6-96E1-445F72386E2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
