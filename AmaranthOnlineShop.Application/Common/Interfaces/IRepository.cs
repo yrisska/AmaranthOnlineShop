@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AmaranthOnlineShop.Application.Common.Models;
+using AmaranthOnlineShop.Domain;
 
-namespace AmaranthOnlineShop.Application.Common.Intefaces
+namespace AmaranthOnlineShop.Application.Common.Interfaces
 {
     public interface IRepository
     {
@@ -18,5 +21,6 @@ namespace AmaranthOnlineShop.Application.Common.Intefaces
         Task SaveChangesAsync();
         void Add<TEntity>(TEntity entity) where TEntity : BaseEntity;
         Task<TEntity> Delete<TEntity>(int id) where TEntity : BaseEntity;
+        Task<PaginatedResult<TDto>> GetPagedData<TEntity, TDto>(PagedRequest pagedRequest) where TEntity : BaseEntity where TDto : class;
     }
 }

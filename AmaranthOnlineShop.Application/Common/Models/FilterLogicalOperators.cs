@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AmaranthOnlineShop.Application.Application.Product.Commands
+namespace AmaranthOnlineShop.Application.Common.Models
 {
-    internal class DeleteProductCommand
+    public enum FilterLogicalOperators
     {
+        And,
+        Or,
     }
 }
