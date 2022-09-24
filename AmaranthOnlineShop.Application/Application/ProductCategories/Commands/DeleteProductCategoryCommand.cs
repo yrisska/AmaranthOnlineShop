@@ -1,12 +1,6 @@
-﻿using AmaranthOnlineShop.Application.Application.Products.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Domain;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
 {

@@ -1,14 +1,8 @@
 ﻿using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
-using AmaranthOnlineShop.Application.Application.Products.Responses;
 using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
 {
@@ -16,7 +10,6 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
     {
         
         public int Id { get; set; }
-        public string Description { get; set; }
         public string Name { get; set; }
     }
 
