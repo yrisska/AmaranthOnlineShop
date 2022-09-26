@@ -11,9 +11,7 @@ namespace AmaranthOnlineShop.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddDbContext<AmaranthOnlineShopDbContext>(
-                optionBuilder => optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("AmaranthOnlineShopConnection"),
-                    x => x.MigrationsAssembly("AmaranthOnlineShop.Infrastructure")));
+
             builder.AddServices();
 
             var app = builder.Build();

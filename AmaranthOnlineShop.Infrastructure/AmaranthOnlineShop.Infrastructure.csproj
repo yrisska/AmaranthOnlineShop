@@ -21,8 +21,4 @@
     <ProjectReference Include="..\AmaranthOnlineShop.Domain\AmaranthOnlineShop.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Persistence\Factory\" />
-  </ItemGroup>
-
 </Project>
