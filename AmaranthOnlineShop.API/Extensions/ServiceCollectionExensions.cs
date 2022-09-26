@@ -1,8 +1,6 @@
 ﻿using AmaranthOnlineShop.Application;
 using AmaranthOnlineShop.Application.Extensions;
-using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
 using AmaranthOnlineShop.Infrastructure.Persistence.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace AmaranthOnlineShop.API.Extensions
 {

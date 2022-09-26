@@ -1,6 +1,4 @@
 using AmaranthOnlineShop.API.Extensions;
-using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
 
 namespace AmaranthOnlineShop.API
 {
@@ -25,9 +23,10 @@ namespace AmaranthOnlineShop.API
                 app.UseSwaggerUI();
             }
 
+            app.UseExceptionHandling();
             app.UseHttpsRedirection();
             app.UseAuthorization();
-
+            app.UseDbTransaction();
 
             app.MapControllers();
 

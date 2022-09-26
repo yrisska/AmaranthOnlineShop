@@ -1,7 +1,6 @@
 ﻿using AmaranthOnlineShop.Application.Application.ProductCategories.Commands;
 using AmaranthOnlineShop.Application.Application.ProductCategories.Queries;
 using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
-using AmaranthOnlineShop.Application.Application.Products.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
