@@ -1,35 +1,37 @@
+using AmaranthOnlineShop.API.Extensions;
+using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
+
 namespace AmaranthOnlineShop.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.AddServices();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
