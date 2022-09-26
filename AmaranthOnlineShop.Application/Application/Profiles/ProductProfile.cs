@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AmaranthOnlineShop.Domain;
 using AmaranthOnlineShop.Application.Application.Products.Responses;
+using AmaranthOnlineShop.Application.Application.Products.Commands;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
@@ -16,6 +17,9 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
                 .ForMember(x => x.ProductCategory,
                     y =>
                         y.MapFrom(z => z.ProductCategory.Name));
+
+            CreateMap<CreateProductCommand, Product>();
+            CreateMap<UpdateProductCommand, Product>();
         }
     }
 }

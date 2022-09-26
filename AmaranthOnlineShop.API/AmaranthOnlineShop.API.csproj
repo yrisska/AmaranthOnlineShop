@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AmaranthOnlineShop.Application\AmaranthOnlineShop.Application.csproj" />
     <ProjectReference Include="..\AmaranthOnlineShop.Infrastructure\AmaranthOnlineShop.Infrastructure.csproj" />
   </ItemGroup>

@@ -9,7 +9,7 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Queries
 {
     public class GetAllProductCategoriesQuery : IRequest<IEnumerable<ProductCategoryDto>>
     {
-        public PagedRequest PagedRequest { get; set; }
+
     }
 
     public class GetAllProductCategoriesQueryHandler : IRequestHandler<GetAllProductCategoriesQuery, IEnumerable<ProductCategoryDto>>
