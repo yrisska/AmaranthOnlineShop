@@ -8,8 +8,6 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
 {
     public class CreateProductCategoryCommand : IRequest<ProductCategoryDto>
     {
-        
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 
