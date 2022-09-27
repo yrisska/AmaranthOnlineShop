@@ -1,4 +1,5 @@
 ﻿using AmaranthOnlineShop.Application;
+using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Application.Extensions;
 using AmaranthOnlineShop.Infrastructure.Persistence.Extensions;
 

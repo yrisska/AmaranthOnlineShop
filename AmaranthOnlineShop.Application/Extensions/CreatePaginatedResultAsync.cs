@@ -16,7 +16,6 @@ namespace AmaranthOnlineShop.Application.Extensions
             where TDto : class
         {
             query = query.ApplyFilters(pagedRequest);
-
             var total = await query.CountAsync();
 
             query = query.Paginate(pagedRequest);
@@ -54,6 +53,11 @@ namespace AmaranthOnlineShop.Application.Extensions
         {
             var predicate = new StringBuilder();
             var requestFilters = pagedRequest.RequestFilters;
+            if (requestFilters == null)
+            {
+                return query;
+            }
+
             for (int i = 0; i < requestFilters.Filters.Count; i++)
             {
                 if (i > 0)
@@ -61,7 +65,10 @@ namespace AmaranthOnlineShop.Application.Extensions
                     predicate.Append($" {requestFilters.LogicalOperator} ");
                 }
 
-                predicate.Append(requestFilters.Filters[i].Path + $".{nameof(string.Contains)}(@{i})");
+                if (requestFilters.Filters[i].Path == "Price")
+                    predicate.Append(requestFilters.Filters[i].Path + requestFilters.Filters[i].Value);
+                else
+                    predicate.Append(requestFilters.Filters[i].Path + $".{nameof(string.Contains)}(@{i})");
             }
 
             if (requestFilters.Filters.Any())

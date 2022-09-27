@@ -4,6 +4,7 @@ using AmaranthOnlineShop.Application.Application.Products.Responses;
 using AmaranthOnlineShop.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AmaranthOnlineShop.API.Controllers
 {
@@ -18,10 +19,10 @@ namespace AmaranthOnlineShop.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<ProductListDto>> GetPagedProducts(PagedRequest pagedRequest)
+        [HttpGet("paginated-search")]
+        public async Task<PaginatedResult<ProductListDto>> GetPagedProducts([FromQuery]ProductPagedRequest productPagedRequest)
         {
-            var response = await _mediator.Send(new GetProductsPagedQuery() {PagedRequest = pagedRequest});
+            var response = await _mediator.Send(new GetProductsPagedQuery { ProductPagedRequest = productPagedRequest });
             return response;
         }
 
