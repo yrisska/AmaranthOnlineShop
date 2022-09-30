@@ -8,6 +8,12 @@ namespace AmaranthOnlineShop.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.AddServerHeader = false;
+                serverOptions.AllowResponseHeaderCompression = true;
+                serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+            });
             // Add services to the container.
 
             builder.AddServices();

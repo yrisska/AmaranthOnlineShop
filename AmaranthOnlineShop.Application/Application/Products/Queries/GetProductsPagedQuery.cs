@@ -24,8 +24,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
 
         public async Task<PaginatedResult<ProductListDto>> Handle(GetProductsPagedQuery request, CancellationToken cancellationToken)
         {
-            var pagedRequest = _mapper.Map<PagedRequest>(request.ProductPagedRequest);
-            var pagedProductsDto = await _repository.GetPagedData<Product, ProductListDto>(pagedRequest);
+            var pagedProductsDto = await _repository.GetPagedData<Product, ProductListDto>(request.ProductPagedRequest);
             return pagedProductsDto;
         }
     }

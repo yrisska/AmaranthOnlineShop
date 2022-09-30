@@ -2,19 +2,17 @@
 
 namespace AmaranthOnlineShop.Application.Common.Models
 {
-    public class ProductPagedRequest
+    public class ProductPagedRequest : PagedRequest
     {
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
-        public string SortingColumnName { get; set; }
-        public string SortDirection { get; set; }
-        public decimal GreaterThan { get; set; }
-        public decimal LowerThan { get; set; }
+        public override int PageIndex { get; set; } = 1;
+        public override int PageSize { get; set; } = 9;
+        public override string SortingColumnName { get; set; } = "Id";
+        public override string SortDirection { get; set; } = "asc";
         public string? ProductCategory { get; set; }
         public string? Name { get; set; }
 
         //Internal modifier prevents property from displaying in swagger
-        internal  RequestFilters? RequestFilters
+        internal override RequestFilters? RequestFilters
         {
             get
             {
@@ -29,18 +27,6 @@ namespace AmaranthOnlineShop.Application.Common.Models
                 {
                     filters.Add(new Filter { Path = "ProductCategory.Name", Value = ProductCategory });
                 }
-
-                if (GreaterThan > 0)
-                {
-                    filters.Add(new Filter { Path = "Price", Value = $">{GreaterThan}" });
-                }
-
-                if (LowerThan > 0)
-                {
-                    filters.Add(new Filter { Path = "Price", Value = $"<{LowerThan}" });
-                }
-
-                if (filters.Count == 0) return null;
 
                 return new RequestFilters
                 {
