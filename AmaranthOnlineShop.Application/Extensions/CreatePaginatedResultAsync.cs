@@ -16,13 +16,14 @@ namespace AmaranthOnlineShop.Application.Extensions
             where TDto : class
         {
             query = query.ApplyFilters(pagedRequest);
+
             var total = await query.CountAsync();
 
-            query = query.Paginate(pagedRequest);
+            var sortedQuery = query.Sort(pagedRequest);
+
+            query = sortedQuery.Paginate(pagedRequest);
 
             var projectionResult = query.ProjectTo<TDto>(mapper.ConfigurationProvider);
-
-            projectionResult = projectionResult.Sort(pagedRequest);
 
             var listResult = await projectionResult.ToListAsync();
 
@@ -35,18 +36,14 @@ namespace AmaranthOnlineShop.Application.Extensions
             };
         }
 
-        private static IQueryable<T> Paginate<T>(this IQueryable<T> query, PagedRequest pagedRequest)
+        private static IQueryable<T> Paginate<T>(this IOrderedQueryable<T> query, PagedRequest pagedRequest)
         {
-            var entities = query.Skip(pagedRequest.PageIndex * pagedRequest.PageSize).Take(pagedRequest.PageSize);
+            var entities = query.Skip((pagedRequest.PageIndex - 1) * pagedRequest.PageSize).Take(pagedRequest.PageSize);
             return entities;
         }
-        private static IQueryable<T> Sort<T>(this IQueryable<T> query, PagedRequest pagedRequest)
+        private static IOrderedQueryable<T> Sort<T>(this IQueryable<T> query, PagedRequest pagedRequest)
         {
-            if (!string.IsNullOrWhiteSpace(pagedRequest.SortingColumnName))
-            {
-                query = query.OrderBy(pagedRequest.SortingColumnName + " " + pagedRequest.SortDirection);
-            }
-            return query;
+            return query.OrderBy(pagedRequest.SortingColumnName + " " + pagedRequest.SortDirection);
         }
 
         private static IQueryable<T> ApplyFilters<T>(this IQueryable<T> query, PagedRequest pagedRequest)

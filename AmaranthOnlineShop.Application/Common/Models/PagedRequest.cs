@@ -1,12 +1,12 @@
 ﻿namespace AmaranthOnlineShop.Application.Common.Models
 {
-    public class PagedRequest
+    public abstract class PagedRequest
     {
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
-        public string SortingColumnName { get; set; }
-        public string SortDirection { get; set; }
-        public RequestFilters? RequestFilters { get; set; }
+        public abstract int PageIndex { get; set; }
+        public abstract int PageSize { get; set; }
+        public abstract string SortingColumnName { get; set; }
+        public abstract string SortDirection { get; set; }
+        internal abstract RequestFilters? RequestFilters { get; }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using AmaranthOnlineShop.API.Middlewares.Models;
 using FluentValidation;
+using Microsoft.Extensions.Hosting.Internal;
 using System.Net;
 
 namespace AmaranthOnlineShop.API.Middlewares
@@ -7,10 +8,12 @@ namespace AmaranthOnlineShop.API.Middlewares
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -27,12 +30,20 @@ namespace AmaranthOnlineShop.API.Middlewares
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
-                httpContext.Response.ContentType = "application/json";
+                if (httpContext.Response.StatusCode >= 500)
+                    _logger.LogCritical(e.ToString());
+                else
+                    _logger.LogError(e.Message);
 
+                httpContext.Response.ContentType = "application/json";
                 await httpContext.Response.WriteAsync(new ErrorDetails()
                 {
                     StatusCode = httpContext.Response.StatusCode,
+#if DEBUG
                     Message = e.Message
+#else
+                    Message = "Something went wrong, contact support!"
+#endif
                 }.ToString());
             }
         }

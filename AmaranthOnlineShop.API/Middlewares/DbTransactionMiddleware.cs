@@ -19,8 +19,8 @@ namespace AmaranthOnlineShop.API.Middlewares
                 return;
             }
 
-            using var transaction = context.Database.BeginTransactionAsync();
-
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            
             await _next(httpContext);
 
             await context.Database.CommitTransactionAsync();
