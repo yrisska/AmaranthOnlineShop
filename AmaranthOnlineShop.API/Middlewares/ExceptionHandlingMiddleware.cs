@@ -33,17 +33,13 @@ namespace AmaranthOnlineShop.API.Middlewares
                 if (httpContext.Response.StatusCode >= 500)
                     _logger.LogCritical(e.ToString());
                 else
-                    _logger.LogError(e.Message);
+                    _logger.LogError(e.ToString());
 
                 httpContext.Response.ContentType = "application/json";
                 await httpContext.Response.WriteAsync(new ErrorDetails()
                 {
                     StatusCode = httpContext.Response.StatusCode,
-#if DEBUG
-                    Message = e.Message
-#else
-                    Message = "Something went wrong, contact support!"
-#endif
+                    Message = httpContext.Response.StatusCode >= 500 ? "Something went wrong" : e.Message,
                 }.ToString());
             }
         }
