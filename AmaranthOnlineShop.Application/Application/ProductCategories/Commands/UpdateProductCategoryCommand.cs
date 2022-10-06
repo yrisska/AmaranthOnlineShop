@@ -1,4 +1,5 @@
-﻿using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Exceptions;
+using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
@@ -22,7 +23,8 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
 
         public async Task<Unit> Handle(UpdateProductCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _repository.GetById<ProductCategory>(request.Id);
+            var category = await _repository.GetById<ProductCategory>(request.Id) ??
+                           throw new EntityNotFoundException("Entity with specified id not found");
             _mapper.Map(request, category);
             await _repository.SaveChangesAsync();
 

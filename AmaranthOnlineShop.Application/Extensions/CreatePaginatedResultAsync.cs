@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AmaranthOnlineShop.Application.Extensions
 {
-    public static class QueryableExtensions
+    public static partial class QueryableExtensions
     {
         public static async Task<PaginatedResult<TDto>> CreatePaginatedResultAsync<TEntity, TDto>(
             this IQueryable<TEntity> query, PagedRequest pagedRequest, IMapper mapper)
@@ -62,7 +62,7 @@ namespace AmaranthOnlineShop.Application.Extensions
                     predicate.Append($" {requestFilters.LogicalOperator} ");
                 }
 
-                if (requestFilters.Filters[i].Path == "Price")
+                if (requestFilters.Filters[i].Path is "Price" or "Id")
                     predicate.Append(requestFilters.Filters[i].Path + requestFilters.Filters[i].Value);
                 else
                     predicate.Append(requestFilters.Filters[i].Path + $".{nameof(string.Contains)}(@{i})");
