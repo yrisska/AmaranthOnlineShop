@@ -84,16 +84,9 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
             await _context.Set<TEntity>().AddRangeAsync(entities);
         }
 
-        public async Task<TEntity1> GetByPredicateWithIncludeThenInclude<TEntity1, TEntity2>(
-            Expression<Func<TEntity1, bool>> predicate, Expression<Func<TEntity1, ICollection<TEntity2>>> include,
-            Expression<Func<TEntity2, object>> thenInclude)
-            where TEntity1 : BaseEntity
-            where TEntity2 : BaseEntity
+        public async Task<List<TEntity>> GetRangeByIds<TEntity>(int[] ids) where TEntity : BaseEntity
         {
-            return await _context.Set<TEntity1>()
-                .Include(include)
-                .ThenInclude(thenInclude)
-                .FirstOrDefaultAsync(predicate);
+            return await _context.Set<TEntity>().Where(x => ids.Contains(x.Id)).ToListAsync();
         }
     }
 }

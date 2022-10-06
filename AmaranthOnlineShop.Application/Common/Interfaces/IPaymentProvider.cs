@@ -9,6 +9,6 @@ namespace AmaranthOnlineShop.Application.Common.Interfaces
 {
     public interface IPaymentProvider
     {
-        Task<string> CreateCheckoutSession(decimal total, int orderId);
+        string CreateCheckoutSession(decimal total, int orderId);
     }
 }

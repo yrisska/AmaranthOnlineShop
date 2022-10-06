@@ -1,4 +1,4 @@
-﻿using AmaranthOnlineShop.Application.Application.Cart.Responses;
+﻿using AmaranthOnlineShop.Application.Application.Orders.Commands;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using System;
@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
-    public class CartProfile : Profile
+    public class OrderDetailProfile : Profile
     {
-        public CartProfile()
+        public OrderDetailProfile()
         {
-            CreateMap<ShoppingSession, ShoppingSessionDto>();
+            CreateMap<MakeOrderCommand, OrderDetail>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AmaranthOnlineShop.Application.Common.Interfaces;
+using AmaranthOnlineShop.Infrastructure.Payment;
 using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
 using AmaranthOnlineShop.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Extensions
             });
 
             services.AddScoped<IRepository, EFCoreRepository>();
+            services.AddScoped<IPaymentProvider, StripePaymentProvider>();
 
             return services;
         }

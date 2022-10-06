@@ -3,19 +3,12 @@ using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace AmaranthOnlineShop.Application.Application.Checkouts.Commands
+namespace AmaranthOnlineShop.Application.Application.Orders.Commands
 {
-    /*public class MakeOrderCommand : IRequest<string>
+    public class MakeOrderCommand : IRequest<string>
     {
-        [JsonIgnore]
-        public int ShoppingSessionId { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -36,13 +29,15 @@ namespace AmaranthOnlineShop.Application.Application.Checkouts.Commands
         }
         public async Task<string> Handle(MakeOrderCommand request, CancellationToken cancellationToken)
         {
-            var shoppingSession = await _repository.GetById<ShoppingSession>(request.ShoppingSessionId);
-            
             var orderDetail = _mapper.Map<OrderDetail>(request);
             orderDetail.Status = OrderStatus.OrderPaymentDue;
-            orderDetail.Total = shoppingSession.Total;
 
-            orderDetail.OrderItems = shoppingSession.CartItems.Select(x => new OrderItem
+            var products = await _repository.GetRangeByIds<Product>(request.CartItems.Select(x => x.ProductId).ToArray());
+            var total = products.Aggregate(0m,
+                (x, y) => x + y.Price * request.CartItems.First(z => z.ProductId == y.Id).Quantity);
+            orderDetail.Total = total;
+
+            orderDetail.OrderItems = request.CartItems.Select(x => new OrderItem
             {
                 ProductId = x.ProductId,
                 Quantity = x.Quantity,
@@ -50,8 +45,8 @@ namespace AmaranthOnlineShop.Application.Application.Checkouts.Commands
 
             await _repository.SaveChangesAsync();
 
-            var redirectUrl =  await _paymentProvider.CreateCheckoutSession(orderDetail.Total, orderDetail.Id);
+            var redirectUrl = _paymentProvider.CreateCheckoutSession(orderDetail.Total, orderDetail.Id);
             return redirectUrl;
         }
-    }*/
+    }
 }
