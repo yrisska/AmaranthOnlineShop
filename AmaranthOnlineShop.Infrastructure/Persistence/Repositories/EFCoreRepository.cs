@@ -50,10 +50,9 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity> GetByIdWithInclude<TEntity>(int id, params Expression<Func<TEntity, object>>[] include) where TEntity : BaseEntity
+        public async Task<TEntity> GetByIdWithInclude<TEntity>(int id, Expression<Func<TEntity, object>> include) where TEntity : BaseEntity
         {
-            var query = IncludeProperties<TEntity>(include);
-            return await query.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Set<TEntity>().Include(include).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         private IQueryable<TEntity> IncludeProperties<TEntity>(
@@ -67,6 +66,7 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
 
             return entities;
         }
+
         public async Task<PaginatedResult<TDto>> GetPagedData<TEntity, TDto>(PagedRequest pagedRequest)
             where TEntity : BaseEntity
             where TDto : class
@@ -87,6 +87,11 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
         public async Task<List<TEntity>> GetRangeByIds<TEntity>(int[] ids) where TEntity : BaseEntity
         {
             return await _context.Set<TEntity>().Where(x => ids.Contains(x.Id)).ToListAsync();
+        }
+
+        public async Task<List<TEntity>> GetAllWithInclude<TEntity>(Expression<Func<TEntity, object>> include) where TEntity : BaseEntity
+        {
+            return await _context.Set<TEntity>().Include(include).ToListAsync();
         }
     }
 }

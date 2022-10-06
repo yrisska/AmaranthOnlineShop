@@ -1,11 +1,8 @@
 ﻿using AmaranthOnlineShop.Application.Application.Orders.Commands;
+using AmaranthOnlineShop.Application.Application.Orders.Responses;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
@@ -14,6 +11,7 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
         public OrderDetailProfile()
         {
             CreateMap<MakeOrderCommand, OrderDetail>();
+            CreateMap<OrderDetail, OrderDetailDto>();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
 
             var products = await _repository.GetRangeByIds<Product>(request.CartItems.Select(x => x.ProductId).ToArray());
             var total = products.Aggregate(0m,
-                (x, y) => x + y.Price * request.CartItems.First(z => z.ProductId == y.Id).Quantity);
+                (x, y) => x + decimal.Round(y.Price * request.CartItems.First(z => z.ProductId == y.Id).Quantity, 2));
             orderDetail.Total = total;
 
             orderDetail.OrderItems = request.CartItems.Select(x => new OrderItem
@@ -43,6 +43,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
                 Quantity = x.Quantity,
             }).ToList();
 
+            _repository.Add(orderDetail);
             await _repository.SaveChangesAsync();
 
             var redirectUrl = _paymentProvider.CreateCheckoutSession(orderDetail.Total, orderDetail.Id);
