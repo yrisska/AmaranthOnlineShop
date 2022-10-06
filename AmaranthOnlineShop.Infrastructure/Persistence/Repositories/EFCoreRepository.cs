@@ -7,6 +7,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
 {
@@ -76,6 +77,23 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : BaseEntity
+        {
+            await _context.Set<TEntity>().AddRangeAsync(entities);
+        }
+
+        public async Task<TEntity1> GetByPredicateWithIncludeThenInclude<TEntity1, TEntity2>(
+            Expression<Func<TEntity1, bool>> predicate, Expression<Func<TEntity1, ICollection<TEntity2>>> include,
+            Expression<Func<TEntity2, object>> thenInclude)
+            where TEntity1 : BaseEntity
+            where TEntity2 : BaseEntity
+        {
+            return await _context.Set<TEntity1>()
+                .Include(include)
+                .ThenInclude(thenInclude)
+                .FirstOrDefaultAsync(predicate);
         }
     }
 }
