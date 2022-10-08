@@ -1,4 +1,5 @@
 ﻿using AmaranthOnlineShop.API.Middlewares.Models;
+using AmaranthOnlineShop.Application.Common.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Hosting.Internal;
 using System.Net;
@@ -26,7 +27,8 @@ namespace AmaranthOnlineShop.API.Middlewares
             {
                 httpContext.Response.StatusCode = e switch
                 {
-                    ValidationException _ => (int)HttpStatusCode.BadRequest,
+                    EntityNotFoundException => (int)HttpStatusCode.NotFound,
+                    ValidationException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 

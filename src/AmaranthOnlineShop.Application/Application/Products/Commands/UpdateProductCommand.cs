@@ -18,7 +18,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
-        public UpdateProductCommandHandler(IMapper mapper, IRepository repository)
+        public UpdateProductCommandHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

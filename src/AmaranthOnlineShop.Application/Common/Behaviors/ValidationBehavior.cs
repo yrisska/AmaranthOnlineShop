@@ -12,28 +12,28 @@ namespace AmaranthOnlineShop.Application.Common.Behaviors
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            if (_validators.Any())
+            if (!_validators.Any())
             {
-                var context = new ValidationContext<TRequest>(request);
-
-                var validationResults = await Task.WhenAll(_validators
-                    .Select(v => v.ValidateAsync(context, cancellationToken)));
-
-                var validationFailures = validationResults
-                    .Where(v => v.Errors.Any())
-                    .SelectMany(r => r.Errors)
-                    .ToList();
-
-                if (validationFailures.Any())
-                {
-                    var firstFailure = validationFailures.First();
-                    throw new ValidationException(firstFailure.ErrorMessage);
-                }
+                return await next();
             }
+            var context = new ValidationContext<TRequest>(request);
 
-            return await next();
+            var validationResults = await Task.WhenAll(_validators
+                .Select(v => v.ValidateAsync(context, cancellationToken)));
+
+            var validationFailures = validationResults
+                .Where(v => v.Errors.Any())
+                .SelectMany(r => r.Errors)
+                .ToList();
+
+            if (!validationFailures.Any())
+            {
+                return await next();
+            }
+            var firstFailure = validationFailures.First();
+            throw new ValidationException(firstFailure.ErrorMessage);
         }
     }
 }
