@@ -80,13 +80,14 @@ namespace AmaranthOnlineShop.UnitTests.ApplicationTests
         [Fact]
         public async Task GetProductByIdQueryHandler_WhenRequestIdNotFound_ReturnsNull()
         {
+            var notExistingId = It.IsAny<int>();
             _repoMock.Setup(x =>
                 x.GetByIdWithInclude(
                     It.IsAny<int>(),
                     It.IsAny<Expression<Func<Product, object>>>())
             ).ReturnsAsync(value: null);
 
-            var productDto = await _handler.Handle(new GetProductByIdQuery { ProductId = 242561 },
+            var productDto = await _handler.Handle(new GetProductByIdQuery { ProductId = notExistingId },
                 default);
 
             _repoMock.Verify(x =>
@@ -194,11 +195,12 @@ namespace AmaranthOnlineShop.UnitTests.ApplicationTests
         [Fact]
         public async Task DeleteProductCommandHandler_WhenRequestIdNotFound_ThrowsException()
         {
+            var anyId = It.IsAny<int>();
             _repoMock.Setup(x => x.Delete<Product>(It.IsAny<int>()))
                 .ThrowsAsync(new EntityNotFoundException("Id not found"));
 
             await Assert.ThrowsAsync<EntityNotFoundException>(async () =>
-                await _handler.Handle(new DeleteProductCommand {Id = 1}, default));
+                await _handler.Handle(new DeleteProductCommand {Id = anyId}, default));
             
             _repoMock.Verify(x => x.Delete<Product>(It.IsAny<int>()), Times.Once);
             _repoMock.Verify(x => x.SaveChangesAsync(), Times.Never);
@@ -231,15 +233,17 @@ namespace AmaranthOnlineShop.UnitTests.ApplicationTests
                 },
                 ProductCategoryId = 1,
             };
-            _repoMock.Setup(x => x.GetById<Product>(It.IsAny<int>())).ReturnsAsync(product);
-            
-            await _handler.Handle(new UpdateProductCommand {
+            var request = new UpdateProductCommand
+            {
                 Id = 0,
                 Description = "desc",
                 Name = "name",
                 Price = 5m,
                 ProductCategoryId = 2
-            }, default);
+            };
+            _repoMock.Setup(x => x.GetById<Product>(It.IsAny<int>())).ReturnsAsync(product);
+            
+            await _handler.Handle(request, default);
 
             _repoMock.Verify(x => x.GetById<Product>(It.IsAny<int>()), Times.Once);
             _repoMock.Verify(x => x.SaveChangesAsync(), Times.Once);
@@ -247,7 +251,7 @@ namespace AmaranthOnlineShop.UnitTests.ApplicationTests
         [Fact]
         public async Task UpdateProductCommandHandler_WhenEntityNotFound_ThrowsExcepion()
         {
-            var command = new UpdateProductCommand { Id = 1 };
+            var command = new UpdateProductCommand { Id = It.IsAny<int>() };
             _repoMock.Setup(x => x.GetById<Product>(It.IsAny<int>())).ReturnsAsync(value: null);
 
             await Assert.ThrowsAnyAsync<EntityNotFoundException>(async () => await _handler.Handle(command, default));
