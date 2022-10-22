@@ -2,12 +2,14 @@ import { CategoryList } from '../../components/common/CategoryList/CategoryList'
 import { PageLayout } from '../../layout'
 import { AppRouteEnum } from '../../types'
 
-export const HomaPageContainer = () => {
+export const HomePageContainer = () => {
   return (
     <PageLayout
-        currentPage={AppRouteEnum.HOME}
+      currentPage={AppRouteEnum.HOME}
     >
-        <CategoryList />
+      <CategoryList />
     </PageLayout>
-  )
-}
+  );
+};
+
+export default HomePageContainer;

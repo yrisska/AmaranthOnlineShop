@@ -3,16 +3,16 @@ import { FC, PropsWithChildren } from 'react'
 import { PageLayoutProps } from './PageLayout.types'
 
 export const PageLayout: FC<PropsWithChildren<PageLayoutProps>> = ({
-    children,
-    currentPage
+  children,
+  currentPage
 }) => {
 
 
-    return (
-        <Box>
-            Header
-            {children}
-            Footer
-        </Box>
-    )
+  return (
+    <Box>
+      Header
+      {children}
+      Footer
+    </Box>
+  )
 }

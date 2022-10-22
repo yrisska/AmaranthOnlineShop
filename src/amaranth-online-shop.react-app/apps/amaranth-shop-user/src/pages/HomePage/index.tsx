@@ -1,8 +1,9 @@
+import { HomePageContainer } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib"
 
 const Homepage = () => {
   return (
-    <div>Homepage</div>
-  )
-}
+    <HomePageContainer />
+  );
+};
 
 export default Homepage

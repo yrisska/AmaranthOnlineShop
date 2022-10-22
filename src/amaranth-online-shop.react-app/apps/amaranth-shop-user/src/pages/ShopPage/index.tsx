@@ -1,8 +1,9 @@
+import { ShopPageContainer } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib"
 
 
 const ShopPage = () => {
   return (
-    <div>ShopPage</div>
+    <ShopPageContainer />
   )
 }
 

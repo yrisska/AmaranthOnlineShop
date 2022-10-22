@@ -5,12 +5,12 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 const ShopPage = lazy(() => import('../pages/ShopPage'))
 
 export const commonRoutes = [
-    {
-        element: <HomePage />,
-        path: AppRouteEnum.HOME,
-    },
-    {
-        element: <ShopPage />,
-        path: AppRouteEnum.SHOP,
-    }
+  {
+    element: <HomePage />,
+    path: AppRouteEnum.HOME,
+  },
+  {
+    element: <ShopPage />,
+    path: AppRouteEnum.SHOP,
+  }
 ]

@@ -22,6 +22,9 @@ namespace AmaranthOnlineShop.API
 
             // Configure the HTTP request pipeline.
 
+            app.UseCors(x => x
+                .AllowAnyOrigin());
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,1 +1,2 @@
-export * from './HomePageContainer/HomaPageContainer';
+export * from './HomePageContainer/HomePageContainer';
+export * from './ShopPageContainer/ShopPageContainer';

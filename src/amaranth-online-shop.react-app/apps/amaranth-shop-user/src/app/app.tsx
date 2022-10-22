@@ -1,14 +1,17 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CssBaseline } from "@mui/material";
+import { theme } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "../routes";
 
 export function App() {
   return (
-    <BrowserRouter>
-      <CssBaseline />
-      <AppRoutes />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <CssBaseline />
+        <AppRoutes />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
