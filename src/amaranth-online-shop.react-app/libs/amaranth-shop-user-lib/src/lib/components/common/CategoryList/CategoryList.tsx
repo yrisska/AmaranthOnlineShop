@@ -1,7 +1,7 @@
+import { ProductCategoryDto } from "@amaranth-online-shop.react-app/redux";
 import { Box, Card } from "@mui/material";
 import { useEffect, useState } from "react"
 import { productCategoriesUri } from "../../../constants";
-import { ProductCategoryDto } from "../../../types";
 
 export const CategoryList = () => {
   const [productCategories, setProductCategories] = useState<Array<ProductCategoryDto>>([]);

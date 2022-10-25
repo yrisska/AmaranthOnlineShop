@@ -1,5 +1,5 @@
+import { ProductCategoryDto } from "@amaranth-online-shop.react-app/redux";
 import { productCategoriesUri } from "../constants";
-import { ProductCategoryDto } from "../types";
 
 export const getProductCategories = async () : Promise<Array<ProductCategoryDto> | null> => {
   const response = await fetch(productCategoriesUri, {

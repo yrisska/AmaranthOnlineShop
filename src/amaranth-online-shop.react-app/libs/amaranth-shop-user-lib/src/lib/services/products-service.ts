@@ -1,5 +1,5 @@
+import { ProductPagedQuery, ProductPagedResult } from "@amaranth-online-shop.react-app/redux";
 import { productsPagedUri } from "../constants";
-import { ProductPagedQuery, ProductPagedResult } from "../types";
 
 
 
