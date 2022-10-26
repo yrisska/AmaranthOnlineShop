@@ -1,4 +1,4 @@
-import { HomePageContainer } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib"
+import { HomePageContainer } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib";
 
 const Homepage = () => {
   return (
@@ -6,4 +6,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage
+export default Homepage;

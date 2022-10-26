@@ -1,4 +1,4 @@
-export const enum AppRouteEnum {
+export enum AppRouteEnum {
   HOME = "/",
   SHOP = "/shop",
 }

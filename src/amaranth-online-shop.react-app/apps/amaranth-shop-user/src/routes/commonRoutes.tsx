@@ -1,8 +1,8 @@
 import { AppRouteEnum } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib";
 import { lazy } from "react";
 
-const HomePage = lazy(() => import('../pages/HomePage'));
-const ShopPage = lazy(() => import('../pages/ShopPage'))
+const HomePage = lazy(() => import("../pages/HomePage"));
+const ShopPage = lazy(() => import("../pages/ShopPage"));
 
 export const commonRoutes = [
   {
@@ -13,4 +13,4 @@ export const commonRoutes = [
     element: <ShopPage />,
     path: AppRouteEnum.SHOP,
   }
-]
+];
