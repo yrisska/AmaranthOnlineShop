@@ -1,1 +1,1 @@
-export * from './ProductPagedQuery';
+export * from "./ProductPagedQuery";

@@ -1,7 +1,7 @@
-import { Box, CircularProgress } from '@mui/material';
-import { Suspense } from 'react'
-import { Route, Routes } from 'react-router-dom';
-import { commonRoutes } from './commonRoutes';
+import { Box, CircularProgress } from "@mui/material";
+import { Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import { commonRoutes } from "./commonRoutes";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +28,6 @@ const AppRoutes = () => {
         ))}
       </Routes>
     </Suspense>
-  )
-}
+  );
+};
 export default AppRoutes;

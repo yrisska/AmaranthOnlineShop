@@ -1,6 +1,6 @@
-import { CategoryList } from '../../components/common/CategoryList/CategoryList'
-import { PageLayout } from '../../layout'
-import { AppRouteEnum } from '../../types'
+import { CategoryList } from "../../components/common/CategoryList/CategoryList";
+import { PageLayout } from "../../layout";
+import { AppRouteEnum } from "../../types";
 
 export const HomePageContainer = () => {
   return (

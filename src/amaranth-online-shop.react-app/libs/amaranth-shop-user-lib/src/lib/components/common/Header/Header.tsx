@@ -1,16 +1,15 @@
-
-import { AppBar, Box, Grid, IconButton, Toolbar, useMediaQuery, useTheme } from '@mui/material'
-import MenuDrawer from '../MenuDrawer/MenuDrawer';
-import { Link, useLocation } from 'react-router-dom';
-import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
-import { AppRouteEnum } from '../../../types';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { headerStyles } from './Header.styles';
-import { useSelector } from 'react-redux';
-import { selectCartTotalQuantity } from '@amaranth-online-shop.react-app/redux';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { useState } from 'react';
-import Cart from '../Cart/Cart';
+import { AppBar, Box, Grid, IconButton, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import MenuDrawer from "../MenuDrawer/MenuDrawer";
+import { Link, useLocation } from "react-router-dom";
+import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
+import { AppRouteEnum } from "../../../types";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { headerStyles } from "./Header.styles";
+import { useSelector } from "react-redux";
+import { selectCartTotalQuantity } from "@amaranth-online-shop.react-app/redux";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { useCallback, useState } from "react";
+import Cart from "../Cart/Cart";
 
 const Header = () => {
 
@@ -20,7 +19,15 @@ const Header = () => {
   const location = useLocation();
 
   const [cartIsOpen, setCartIsOpen] = useState(false);
-  const cartTotalQuantity = useSelector(selectCartTotalQuantity)
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+
+  const openCartEventHandler = useCallback(() => {
+    setCartIsOpen(true);
+  }, []);
+
+  const closeCartEventHandler = useCallback(() => {
+    setCartIsOpen(false);
+  }, []);
 
   return (
     <>
@@ -48,7 +55,10 @@ const Header = () => {
               alignItems="center"
             >
               {!!isDownLg &&
-                <Grid item xs={1}>
+                <Grid
+                  item
+                  xs={1}
+                >
                   <MenuDrawer />
                 </Grid>
               }
@@ -59,7 +69,10 @@ const Header = () => {
                   container
                   justifyContent="center"
                 >
-                  <IconButton aria-label="" href={AppRouteEnum.HOME}>
+                  <IconButton
+                    aria-label=""
+                    href={AppRouteEnum.HOME}
+                  >
                     <SpaOutlinedIcon sx={{ scale: "1.6", color: "inherit" }} />
                   </IconButton>
                 </Grid>
@@ -73,7 +86,11 @@ const Header = () => {
                   justifyContent="space-evenly"
                 >
                   {Object.keys(AppRouteEnum).map((page, index) => (
-                    <Grid item xs={1} key={index}>
+                    <Grid
+                      item
+                      xs={1}
+                      key={index}
+                    >
                       <Grid
                         item
                         component={Link}
@@ -85,7 +102,8 @@ const Header = () => {
                           "&: hover": {
                             color: theme.palette.primary.dark
                           }
-                        }}>
+                        }}
+                      >
                         {page}
                       </Grid>
                     </Grid>
@@ -98,7 +116,7 @@ const Header = () => {
                 md={4}
                 xs={4}
               >
-                a
+
               </Grid>
               <Grid
                 container
@@ -108,12 +126,24 @@ const Header = () => {
                 xs={3}
               >
                 {!isDownMd &&
-                  <IconButton aria-label="" onClick={() => 1}>
+                  <IconButton
+                    aria-label=""
+                    onClick={() => 1}
+                  >
                     <PersonOutlineOutlinedIcon style={{ scale: "1.6" }} />
                   </IconButton>
                 }
-                <Grid item md={6} xs={12} container justifyContent="center">
-                  <IconButton aria-label="Cart" onClick={() => setCartIsOpen(true)}>
+                <Grid
+                  item
+                  md={6}
+                  xs={12}
+                  container
+                  justifyContent={isDownLg ? "flex-end" : "center"}
+                >
+                  <IconButton
+                    aria-label="Cart"
+                    onClick={openCartEventHandler}
+                  >
                     <ShoppingCartOutlinedIcon style={{ scale: "1.5" }} />
                   </IconButton>
                   {
@@ -136,11 +166,11 @@ const Header = () => {
         }}
       />
       {
-        cartIsOpen && <Cart handleClose={() => setCartIsOpen(false)} />
+        cartIsOpen && <Cart handleClose={closeCartEventHandler} />
       }
     </>
 
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

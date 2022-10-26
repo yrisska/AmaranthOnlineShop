@@ -1,5 +1,3 @@
-import { useTheme } from "@mui/material";
-
 export const headerStyles = {
   root: {
 
@@ -18,4 +16,4 @@ export const headerStyles = {
     textAlign: "center",
     verticalAlign: "center"
   }
-}
+};

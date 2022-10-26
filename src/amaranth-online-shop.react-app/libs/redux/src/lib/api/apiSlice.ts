@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ProductPagedQuery, ProductPagedResult } from '../types';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ProductPagedQuery, ProductPagedResult } from "../types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -9,6 +9,6 @@ export const apiSlice = createApi({
       query: (query: ProductPagedQuery) => "/products/paginated-search?" + new URLSearchParams(query)
     })
   })
-})
+});
 
 export const { useGetPagedProductsQuery } = apiSlice;

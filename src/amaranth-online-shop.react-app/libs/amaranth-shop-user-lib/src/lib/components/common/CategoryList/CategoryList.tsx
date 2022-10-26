@@ -1,6 +1,6 @@
 import { ProductCategoryDto } from "@amaranth-online-shop.react-app/redux";
 import { Box, Card } from "@mui/material";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { productCategoriesUri } from "../../../constants";
 
 export const CategoryList = () => {
@@ -13,10 +13,10 @@ export const CategoryList = () => {
       .then((res) => res.json())
       .then((res) => setProductCategories(res))
       .catch((e) => console.log(e));
-  }
+  };
   useEffect(() => {
-    fetchProductCategories()
-  }, [])
+    fetchProductCategories();
+  }, []);
 
   return (
     <Box>
@@ -29,5 +29,5 @@ export const CategoryList = () => {
         </Card>
       ))}
     </Box>
-  )
-}
+  );
+};

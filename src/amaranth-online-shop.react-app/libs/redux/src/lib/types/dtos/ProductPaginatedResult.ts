@@ -1,4 +1,4 @@
-import { ProductDto } from "./ProductDto"
+import { ProductDto } from "./ProductDto";
 
 export type ProductPagedResult = {
   pageIndex: number,
@@ -8,4 +8,4 @@ export type ProductPagedResult = {
   hasPreviousPage: boolean,
   hasNextPage: boolean,
   items: Array<ProductDto>
-}
+};

@@ -29,11 +29,11 @@ theme.components = {
           maxWidth: "100%",
           maxHeight: "100vh",
           [theme.breakpoints.down("md")]: {
-						flexDirection: "column",
-					}
+            flexDirection: "column",
+          }
         },
       }
     }
   },
   
-}
+};

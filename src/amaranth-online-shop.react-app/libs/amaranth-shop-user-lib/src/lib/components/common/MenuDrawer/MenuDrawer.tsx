@@ -1,9 +1,9 @@
-import { Avatar, Box, Button, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, useTheme, Typography, Link } from '@mui/material'
-import { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu'
-import { AppRouteEnum } from '../../../types';
-import { Link as RouterLink } from 'react-router-dom';
-import CloseIcon from '@mui/icons-material/Close';
+import { Avatar, Box, Button, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, useTheme, Typography, Link } from "@mui/material";
+import { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import { AppRouteEnum } from "../../../types";
+import { Link as RouterLink } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
 
 const MenuDrawer = () => {
   const theme = useTheme();
@@ -85,7 +85,11 @@ const MenuDrawer = () => {
             fontSize="1.5rem"
           >
             {Object.keys(AppRouteEnum).map((page, index) => (
-              <Grid item xs={6}>
+              <Grid
+                item
+                xs={6}
+                key={`r_${index}_${page}`}
+              >
                 <Link
                   component={RouterLink}
                   to={AppRouteEnum[page as keyof typeof AppRouteEnum]}
@@ -105,7 +109,7 @@ const MenuDrawer = () => {
         <MenuIcon />
       </IconButton>
     </>
-  )
-}
+  );
+};
 
-export default MenuDrawer
+export default MenuDrawer;
