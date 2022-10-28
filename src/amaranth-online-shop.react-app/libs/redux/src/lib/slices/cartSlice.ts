@@ -58,7 +58,7 @@ const cartSlice = createSlice({
   }
 });
 
-export const selectCartItems = (state: RootState) => state.cart.items;
+export const selectCartItems: Selector<RootState, CartItem[]> = (state: RootState) => state.cart.items;
 
 export const selectCartTotalQuantity: Selector<RootState, number> = createSelector(
   selectCartItems,

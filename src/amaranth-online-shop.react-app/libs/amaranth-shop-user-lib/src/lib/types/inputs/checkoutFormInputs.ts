@@ -13,5 +13,5 @@ export const makeOrderSchema = object({
   email: string().email().required(),
   phone: string().required(),
   adress: string().required().min(10).max(200),
-  comments: string().notRequired().max(1000),
+  comments: string().required().min(0).max(1000),
 });

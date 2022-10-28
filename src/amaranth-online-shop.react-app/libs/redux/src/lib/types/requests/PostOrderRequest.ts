@@ -10,4 +10,4 @@ export type PostOrderRequest = {
 export type CartItemRequest = {
   productId: number,
   quantity: number,
-}
+};
