@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { selectCartTotalQuantity } from "@amaranth-online-shop.react-app/redux";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useCallback, useState } from "react";
-import Cart from "../Cart/Cart";
+import Cart from "../../modals/Cart/Cart";
 
 const Header = () => {
 
