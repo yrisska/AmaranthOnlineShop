@@ -14,29 +14,32 @@ namespace AmaranthOnlineShop.API
                 serverOptions.AllowResponseHeaderCompression = true;
                 serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
             });
-            // Add services to the container.
 
             builder.AddServices();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
+                    options.OAuthClientId(app.Configuration["Auth0:ClientId"]);
+                    options.OAuthClientSecret(app.Configuration["Auth0:ClientSecret"]);
+                    options.OAuthUsePkce();
+                });
+            }
 
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
             );
-
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
             app.UseExceptionHandling();
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseDbTransaction();
 

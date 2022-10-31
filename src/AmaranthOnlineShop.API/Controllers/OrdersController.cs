@@ -2,6 +2,7 @@
 using AmaranthOnlineShop.Application.Application.Orders.Queries;
 using AmaranthOnlineShop.Application.Application.Orders.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmaranthOnlineShop.API.Controllers
@@ -26,12 +27,14 @@ namespace AmaranthOnlineShop.API.Controllers
         }
 
         [HttpGet]
+        [Authorize("read:orders")]
         public async Task<IEnumerable<OrderDetailDto>> GetAllOrders()
         {
             var orderDetailsDto = await _mediator.Send(new GetAllOrdersQuery());
             return orderDetailsDto;
         }
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<OrderDetailDto> GetOrderByID(int id)
         {
             var orderDetailDto = await _mediator.Send(new GetOrderByIdQuery() {Id = id});
