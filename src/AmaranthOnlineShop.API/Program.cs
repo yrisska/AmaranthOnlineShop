@@ -27,16 +27,16 @@ namespace AmaranthOnlineShop.API
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
                     options.OAuthClientId(app.Configuration["Auth0:ClientId"]);
-                    options.OAuthClientSecret(app.Configuration["Auth0:ClientSecret"]);
                     options.OAuthUsePkce();
                 });
+                app.UseCors(x => x
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                );
             }
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-            );
+            
             app.UseExceptionHandling();
             app.UseHttpsRedirection();
             app.UseAuthentication();

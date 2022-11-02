@@ -81,5 +81,10 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
         {
             return await _context.Set<TEntity>().Include(include).ToListAsync();
         }
+
+        public async Task<List<TEntity>> GetRangeByPredicateWithInclude<TEntity>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> include) where TEntity : BaseEntity
+        {
+            return await _context.Set<TEntity>().Include(include).Where(predicate).ToListAsync();
+        }
     }
 }

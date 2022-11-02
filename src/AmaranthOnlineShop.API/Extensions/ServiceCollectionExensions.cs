@@ -50,9 +50,9 @@ namespace AmaranthOnlineShop.API.Extensions
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
-                    "read:orders",
+                    "access:admin-data",
                     policy => policy.Requirements.Add(
-                        new HasScopeRequirement("read:orders", "https://" + configuration["Auth0:Domain"] + "/")
+                        new HasScopeRequirement("access:admin-data", "https://" + configuration["Auth0:Domain"] + "/")
                     )
                 );
             });
@@ -83,7 +83,7 @@ namespace AmaranthOnlineShop.API.Extensions
                             AuthorizationUrl = new Uri($"https://{configuration["Auth0:Domain"]}/authorize?audience={configuration["Auth0:Audience"]}"),
                             Scopes = new Dictionary<string, string>
                             {
-                                { "read:orders", "Read all orders" },
+                                { "access:admin-data", "Access all admin-related endpoints" },
                             }
                         }
                     }

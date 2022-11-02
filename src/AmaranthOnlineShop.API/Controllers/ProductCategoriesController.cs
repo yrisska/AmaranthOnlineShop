@@ -2,6 +2,7 @@
 using AmaranthOnlineShop.Application.Application.ProductCategories.Queries;
 using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmaranthOnlineShop.API.Controllers
@@ -32,6 +33,7 @@ namespace AmaranthOnlineShop.API.Controllers
         }
 
         [HttpPost]
+        [Authorize("access:admin-data")]
         public async Task<ProductCategoryDto> CreateProductCategory(CreateProductCategoryCommand productCategoryForCreateDto)
         {
             var productCategoryDto = await _mediator.Send(productCategoryForCreateDto);
@@ -39,12 +41,14 @@ namespace AmaranthOnlineShop.API.Controllers
         } 
 
         [HttpPut]
+        [Authorize("access:admin-data")]
         public async Task UpdateProductCategory(UpdateProductCategoryCommand productCategoryForUpdate)
         {
             await _mediator.Send(productCategoryForUpdate);
         }
 
         [HttpDelete("{id}")]
+        [Authorize("access:admin-data")]
         public async Task DeleteProductCategory(int id)
         {
             await _mediator.Send(new DeleteProductCategoryCommand() {Id = id});

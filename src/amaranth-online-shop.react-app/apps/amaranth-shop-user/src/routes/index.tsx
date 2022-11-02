@@ -2,28 +2,37 @@ import { Box, CircularProgress } from "@mui/material";
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { commonRoutes } from "./commonRoutes";
+import { privateRoutes } from "./privateRoutes";
+import { PrivateRoute } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib";
 
 const AppRoutes = () => {
+
+  const Spinner = (
+    <Box
+      component="div"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+    >
+      <CircularProgress />
+    </Box>
+  );
+
   return (
     <Suspense
-      fallback={
-        <Box
-          component="div"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100vh"
-        >
-          <CircularProgress />
-        </Box>
-      }
+      fallback={Spinner}
     >
       <Routes>
-        {commonRoutes.map((route, index) => (
+        {[...commonRoutes, ...privateRoutes].map((route, index) => (
           <Route
             path={route.path}
             key={`r_${index}_${route.path}`}
-            element={route.element}
+            element={route.isAuth ? (
+              <PrivateRoute>{route.element}</PrivateRoute>
+            ) :
+              route.element
+            }
           />
         ))}
       </Routes>

@@ -1,5 +1,5 @@
 import { cartAddItem, useAppDispatch } from "@amaranth-online-shop.react-app/redux";
-import { Box, CircularProgress, Grid, Pagination, Typography, IconButton, useTheme } from "@mui/material";
+import { Box, CircularProgress, Grid, Pagination, Typography, IconButton, useTheme, Paper } from "@mui/material";
 import currency from "currency.js";
 import { FC } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -10,25 +10,29 @@ const ProductList: FC<ProductListProps> = ({
   products
 }) => {
   const theme = useTheme();
+  const isDownLg = theme.breakpoints.down("lg");
   const dispatch = useAppDispatch();
 
   return (
     <Grid
       {...productListStyles.root}
+      height={isDownLg ? "auto" : "90%"}
+      width={isDownLg ? "100%" : "70%"}
+      columnGap={isDownLg ? "2vh" : "5vh"}
+      paddingLeft="5vw"
     >
       {products.map(product =>
         <Grid
           key={product.id}
+          component={Paper}
           container
           item
           justifyContent="space-around"
           alignItems="center"
           direction="column"
-          height="40vh"
-          lg={4}
-          sx={{
-
-          }}
+          height="35vh"
+          lg={3.1}
+          xs={5.5}
         >
           <Box
             component={"img"}
@@ -40,7 +44,7 @@ const ProductList: FC<ProductListProps> = ({
             }}
           />
           <Typography
-            variant="h5"
+            variant="h6"
             color="initial"
           >
             {product.name}
@@ -56,9 +60,10 @@ const ProductList: FC<ProductListProps> = ({
             item
             width="70%"
             justifyContent="space-around"
+            alignItems="center"
           >
             <Typography
-              variant="h5"
+              variant="h6"
               color="initial"
             >
               {currency(product.price).format()}

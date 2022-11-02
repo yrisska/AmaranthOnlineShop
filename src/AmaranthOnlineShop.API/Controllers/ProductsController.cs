@@ -3,6 +3,7 @@ using AmaranthOnlineShop.Application.Application.Products.Queries;
 using AmaranthOnlineShop.Application.Application.Products.Responses;
 using AmaranthOnlineShop.Application.Common.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
@@ -34,6 +35,7 @@ namespace AmaranthOnlineShop.API.Controllers
         }
 
         [HttpPost]
+        [Authorize("access:admin-data")]
         public async Task<ProductDto> CreateProduct(CreateProductCommand productForCreateDto)
         {
             var productDto = await _mediator.Send(productForCreateDto);
@@ -41,12 +43,14 @@ namespace AmaranthOnlineShop.API.Controllers
         } 
 
         [HttpPut]
+        [Authorize("access:admin-data")]
         public async Task UpdateProduct(UpdateProductCommand productForUpdate)
         {
             await _mediator.Send(productForUpdate);
         }
 
         [HttpDelete("{id}")]
+        [Authorize("access:admin-data")]
         public async Task DeleteProduct(int id)
         {
             await _mediator.Send(new DeleteProductCommand() {Id = id});

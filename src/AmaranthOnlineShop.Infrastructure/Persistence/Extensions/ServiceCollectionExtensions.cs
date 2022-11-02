@@ -5,6 +5,7 @@ using AmaranthOnlineShop.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe;
 
 namespace AmaranthOnlineShop.Infrastructure.Persistence.Extensions
 {
@@ -19,6 +20,8 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Extensions
 
             services.AddScoped<IRepository, EFCoreRepository>();
             services.AddScoped<IPaymentProvider, StripePaymentProvider>();
+
+            StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
 
             return services;
         }

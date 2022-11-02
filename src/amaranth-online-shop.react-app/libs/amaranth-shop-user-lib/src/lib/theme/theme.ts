@@ -1,6 +1,6 @@
-import { createTheme } from "@mui/material";
+import { createTheme, responsiveFontSizes } from "@mui/material";
 
-export const theme = createTheme({
+export const theme = responsiveFontSizes(createTheme({
   typography: {
     fontFamily: "Monsterrat Regular"
   },
@@ -16,8 +16,8 @@ export const theme = createTheme({
       dark: "#D5C9BD",
       contrastText: "black",
     }
-  }
-});
+  },
+}));
 
 theme.components = {
   MuiCssBaseline: {

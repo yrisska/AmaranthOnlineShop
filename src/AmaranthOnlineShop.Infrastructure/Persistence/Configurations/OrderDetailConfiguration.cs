@@ -15,7 +15,7 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
         {
             builder.Property(x => x.Status)
                 .HasConversion<string>()
-                .HasMaxLength(20);
+                .HasMaxLength(40);
 
             builder.Property(x => x.Adress)
                 .HasMaxLength(200);
@@ -26,7 +26,10 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Phone)
                 .HasMaxLength(20);
             builder.Property(x => x.Comments)
+                .IsRequired(false)
                 .HasMaxLength(1000);
+            builder.Property(x => x.UserId)
+                .IsRequired(false);
 
             builder.HasMany(x => x.OrderItems)
                 .WithOne(x => x.OrderDetail)

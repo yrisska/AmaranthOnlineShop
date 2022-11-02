@@ -8,9 +8,11 @@ export const commonRoutes = [
   {
     element: <HomePage />,
     path: AppRouteEnum.HOME,
+    isAuth: false,
   },
   {
     element: <ShopPage />,
     path: AppRouteEnum.SHOP,
+    isAuth: false,
   }
 ];

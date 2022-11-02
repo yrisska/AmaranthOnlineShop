@@ -3,6 +3,7 @@ using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmaranthOnlineShop.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AmaranthOnlineShopDbContext))]
-    partial class AmaranthOnlineShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221101213536_FixedEnumLength")]
+    partial class FixedEnumLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,9 +62,6 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
