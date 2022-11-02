@@ -1,4 +1,5 @@
-﻿using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
+using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
@@ -6,16 +7,18 @@ using MediatR;
 
 namespace AmaranthOnlineShop.Application.Application.Orders.Commands
 {
-    public class MakeOrderCommand : IRequest<string>
+    public class MakeOrderCommand : IRequest<PostOrderResponse>
     {
         public ICollection<CartItem> CartItems { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Adress { get; set; }
-        public string Comments { get; set; }
+        public string? Comments { get; set; }
+        public string Domain { get; set; }
+        public string? UserId { get; set; }
     }
-    public class MakeOrderCommandHandler : IRequestHandler<MakeOrderCommand, string>
+    public class MakeOrderCommandHandler : IRequestHandler<MakeOrderCommand, PostOrderResponse>
     {
         private readonly IPaymentProvider _paymentProvider;
         private readonly IRepository _repository;
@@ -27,7 +30,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<string> Handle(MakeOrderCommand request, CancellationToken cancellationToken)
+        public async Task<PostOrderResponse> Handle(MakeOrderCommand request, CancellationToken cancellationToken)
         {
             var orderDetail = _mapper.Map<OrderDetail>(request);
             orderDetail.Status = OrderStatus.OrderPaymentDue;
@@ -46,8 +49,11 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
             _repository.Add(orderDetail);
             await _repository.SaveChangesAsync();
 
-            var redirectUrl = _paymentProvider.CreateCheckoutSession(orderDetail.Total, orderDetail.Id);
-            return redirectUrl;
+            var redirectUrl = _paymentProvider.CreateCheckoutSession(orderDetail.Total, orderDetail.Id, request.Domain);
+            return new PostOrderResponse
+            {
+                RedirectUrl = redirectUrl,
+            };
         }
     }
 }

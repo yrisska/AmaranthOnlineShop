@@ -14,6 +14,7 @@ namespace AmaranthOnlineShop.Application.Common.Interfaces
 
         Task<List<TEntity>> GetAll<TEntity>() where TEntity : BaseEntity;
         Task<List<TEntity>> GetAllWithInclude<TEntity>(Expression<Func<TEntity, object>> include) where TEntity : BaseEntity;
+        Task<List<TEntity>> GetRangeByPredicateWithInclude<TEntity>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> include) where TEntity : BaseEntity;
         Task SaveChangesAsync();
         void Add<TEntity>(TEntity entity) where TEntity : BaseEntity;
         void AddRange<TEntity>(IEnumerable<TEntity> entity) where TEntity : BaseEntity;

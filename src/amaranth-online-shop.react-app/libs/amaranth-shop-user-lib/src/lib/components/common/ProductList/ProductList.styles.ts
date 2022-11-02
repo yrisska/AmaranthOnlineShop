@@ -1,10 +1,9 @@
+import { GridDirection } from "@mui/material";
+
 export const productListStyles = {
   root: {
-    height: "90%",
-    width: "100%",
-    container: true
+    container: true,
+    rowGap: "2vh",
+    direction: "row" as GridDirection,
   },
-  product: {
-
-  }
 };

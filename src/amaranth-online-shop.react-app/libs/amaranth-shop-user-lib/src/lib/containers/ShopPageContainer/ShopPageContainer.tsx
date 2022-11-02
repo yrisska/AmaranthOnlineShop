@@ -1,5 +1,5 @@
 import { ProductPagedQuery, useGetPagedProductsQuery } from "@amaranth-online-shop.react-app/redux";
-import { Grid, useMediaQuery, useTheme, Typography, CircularProgress, Pagination } from "@mui/material";
+import { Grid, useMediaQuery, useTheme, Typography, CircularProgress, Pagination, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
 import ProductList from "../../components/common/ProductList/ProductList";
 import { PageLayout } from "../../layout";
@@ -25,6 +25,11 @@ export const ShopPageContainer = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
+  const handleSelectSortChange = useCallback((event: SelectChangeEvent) => {
+    const columnAndOrder = event.target.value.split(" ");
+    setProductPagedQuery((prevState) => ({ ...prevState, sortingColumnName: columnAndOrder[0], sortDirection: columnAndOrder[1] }));
+  }, []);
+
   return (
     <PageLayout
       currentPage={AppRouteEnum.SHOP}
@@ -32,17 +37,18 @@ export const ShopPageContainer = () => {
 
       <Grid
         container
-        height="160vh"
+        height={isDownLg ? "auto" : "160vh"}
         direction="column"
         justifyContent="center"
         alignItems="center"
         width="100%"
+        rowGap="1vh"
       >
         <Grid
           container
           item
           bgcolor={theme.palette.secondary.main}
-          xs={1.5}
+          xs={1.4}
           width="100%"
           justifyContent="center"
           alignItems="center"
@@ -57,18 +63,30 @@ export const ShopPageContainer = () => {
         <Grid
           container
           item
-          xs={0.5}
-          bgcolor="orange"
+          xs={0.4}
           justifyContent="center"
         >
           <Grid
             container
             item
-            lg={9}
-            xs={12}
-            bgcolor="gray"
+            lg={5.8}
+            xs={11}
+            justifyContent="flex-end"
           >
-
+            <FormControl>
+              <InputLabel id="sort-select-label">Sort</InputLabel>
+              <Select
+                labelId="sort-select-label"
+                id="sort-select"
+                value={"id asc"}
+                label="Age"
+                onChange={handleSelectSortChange}
+              >
+                <MenuItem value={"id asc"}>By date</MenuItem>
+                <MenuItem value={"price asc"}>Price: Low to High</MenuItem>
+                <MenuItem value={"price desc"}>Price: High to Low</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
         <Grid
@@ -93,49 +111,46 @@ export const ShopPageContainer = () => {
             container
             item
             lg={7}
-            md={12}
             xs={12}
-            justifyContent="center"
+            direction="column"
             alignItems="center"
+            height="fit-content"
+            justifyContent={"center"}
           >
-            <Grid
-              container
-              justifyContent="center"
-              alignItems={isSuccess ? "flex-start" : "center"}
-              height="95%"
-              width="100%"
-            >
-              {
-                isLoading &&
-                <CircularProgress />
-              }
-              {
-                !isLoading && isSuccess && pagedProducts &&
-                <>
-                  <ProductList
-                    products={pagedProducts.items}
-                  />
+            {
+              isLoading &&
+              <CircularProgress />
+            }
+            {
+              !isLoading && isSuccess && pagedProducts &&
+              <>
+                <ProductList
+                  products={pagedProducts.items}
+                />
+                {
+                  pagedProducts.totalPages > 1 &&
                   <Pagination
+                    sx={{ marginTop: "4vh" }}
                     page={pagedProducts.pageIndex}
                     count={pagedProducts.totalPages}
                     onChange={handleChangePage}
                   />
-                </>
-              }
-              {
-                !isLoading && isSuccess && !pagedProducts &&
-                <Typography
-                  variant="h3"
-                  color="initial"
-                >
-                  No matched products!
-                </Typography>
-              }
-            </Grid>
+                }
+              </>
+            }
+            {
+              !isLoading && isSuccess && !pagedProducts &&
+              <Typography
+                variant="h3"
+                color="initial"
+              >
+                No matched products!
+              </Typography>
+            }
           </Grid>
         </Grid>
       </Grid>
-    </PageLayout>
+    </PageLayout >
   );
 };
 

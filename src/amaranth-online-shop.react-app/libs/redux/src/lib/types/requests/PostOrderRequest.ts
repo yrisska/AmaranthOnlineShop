@@ -4,7 +4,9 @@ export type PostOrderRequest = {
   email: string,
   phone: string,
   adress: string,
-  comments: string
+  comments: string,
+  domain: string,
+  token?: string,
 };
 
 export type CartItemRequest = {

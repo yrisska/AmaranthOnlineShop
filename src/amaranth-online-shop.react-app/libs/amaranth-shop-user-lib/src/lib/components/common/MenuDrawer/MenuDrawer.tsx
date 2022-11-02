@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, useTheme, Typography, Link } from "@mui/material";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppRouteEnum } from "../../../types";
+import { AppRouteEnum, PublicRouteEnum } from "../../../types";
 import { Link as RouterLink } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -25,7 +25,7 @@ const MenuDrawer = () => {
         >
           <Grid
             container
-            bgcolor="#221F1F"
+            bgcolor="#383B37"
             width="320px"
             height="18%"
           >
@@ -84,7 +84,7 @@ const MenuDrawer = () => {
             rowSpacing={2}
             fontSize="1.5rem"
           >
-            {Object.keys(AppRouteEnum).map((page, index) => (
+            {Object.keys(PublicRouteEnum).map((page, index) => (
               <Grid
                 item
                 xs={6}
@@ -92,7 +92,7 @@ const MenuDrawer = () => {
               >
                 <Link
                   component={RouterLink}
-                  to={AppRouteEnum[page as keyof typeof AppRouteEnum]}
+                  to={PublicRouteEnum[page as keyof typeof PublicRouteEnum]}
                   sx={{textDecoration: "none"}}
                 >
                   {page}
@@ -103,7 +103,7 @@ const MenuDrawer = () => {
         </Box>
       </Drawer>
       <IconButton
-        sx={{ color: "black", scale: "1.5", marginRight: "auto", height: "50%" }}
+        sx={{ color: "#6B716A", scale: "1.5", marginRight: "auto", height: "50%" }}
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <MenuIcon />

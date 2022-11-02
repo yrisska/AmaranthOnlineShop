@@ -26,6 +26,8 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
                 .Length(5, 200);
             RuleFor(x => x.Comments)
                 .Length(0, 1000);
+            RuleFor(x => x.Domain)
+                .NotEmpty();
         }
     }
 }

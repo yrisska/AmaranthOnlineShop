@@ -1,8 +1,8 @@
-import { Grid, Dialog, DialogTitle, DialogContent, DialogActions, Button, useMediaQuery, useTheme, IconButton, Divider, Typography, Box, TextField } from "@mui/material";
-import { FC, Fragment } from "react";
+import { Grid, Dialog, DialogTitle, DialogContent, Button, useMediaQuery, useTheme, IconButton, Divider, Typography, Box, TextField, Backdrop, CircularProgress } from "@mui/material";
+import { FC, Fragment, useEffect } from "react";
 import { CartProps } from "./Cart.types";
 import CloseIcon from "@mui/icons-material/Close";
-import { cartDecrementItem, cartIncrementItem, CartItemRequest, cartRemoveAll, cartRemoveItem, PostOrderRequest, RootState, selectCartItems, selectCartTotalPrice, useAppDispatch, useAppSelector, usePostOrderMutation } from "@amaranth-online-shop.react-app/redux";
+import { cartDecrementItem, cartIncrementItem, CartItemRequest, cartRemoveAll, cartRemoveItem, PostOrderRequest, selectCartItems, selectCartTotalPrice, useAppDispatch, useAppSelector, usePostOrderMutation } from "@amaranth-online-shop.react-app/redux";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -12,11 +12,14 @@ import { MakeOrderFormInputs, makeOrderSchema } from "../../../types";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler } from "react-hook-form/dist/types";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Cart: FC<CartProps> = ({ handleClose }) => {
 
   const theme = useTheme();
   const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
+
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const cartItems = useAppSelector(selectCartItems);
   const cartTotalPrice = useAppSelector(selectCartTotalPrice);
@@ -27,9 +30,9 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
     resolver: yupResolver(makeOrderSchema)
   });
 
-  const [updatePost, { isLoading }] = usePostOrderMutation();
+  const [postOrder, { isLoading, isSuccess, data: postOrderResponse }] = usePostOrderMutation();
 
-  const onSubmit: SubmitHandler<MakeOrderFormInputs> = data => {
+  const onSubmit: SubmitHandler<MakeOrderFormInputs> = async(data) => {
     const postOrderRequest: PostOrderRequest = {
       cartItems: cartItems.map((x): CartItemRequest => ({
         productId: x.product.id,
@@ -39,10 +42,26 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
       email: data.email,
       adress: data.adress,
       phone: data.phone,
-      comments: data.comments
+      comments: data.comments,
+      domain: window.location.origin
     };
-    updatePost(postOrderRequest);
+
+    if (!isAuthenticated) {
+      postOrder({ request: postOrderRequest });
+      return;
+    }
+
+    const token = await getAccessTokenSilently();
+    postOrder({
+      request: postOrderRequest,
+      token: token,
+    });
   };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess && postOrderResponse)
+      window.location.href = postOrderResponse.redirectUrl;
+  }, [postOrderResponse, isLoading, isSuccess]);
 
   return (
     <Dialog
@@ -115,7 +134,8 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                         <Box
                           component={"img"}
                           src="https://es.com.ua/media/catalog/product/placeholder/default/default-product-image.png?auto=webp&format=png&width=2560&height=3200&fit=cover"
-                          sx={cartStyles.productImg} />
+                          sx={cartStyles.productImg}
+                        />
                       </Grid>
 
                       <Grid
@@ -125,7 +145,6 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                           variant="h5"
                           color="initial"
                           textAlign="justify"
-                          fontSize="calc(1vmax + 10px)"
                         >
                           {item.product.name}
                         </Typography>
@@ -142,7 +161,6 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                           <Typography
                             variant="h5"
                             color="initial"
-                            fontSize="calc(1vmax + 10px)"
                           >
                             {item.quantity}
                           </Typography>
@@ -167,7 +185,6 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                         <Typography
                           variant="h5"
                           color="initial"
-                          fontSize="calc(1vmax + 10px)"
                         >
                           {currency(item.totalPrice).format()}
                         </Typography>
@@ -182,7 +199,6 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                   <Typography
                     variant="h5"
                     color="initial"
-                    fontSize="calc(1vmax + 10px)"
                   >
                     {"Total: " + cartTotalPrice.format()}
                   </Typography>
@@ -274,10 +290,16 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                   Checkout
                 </Button>
               </Grid>
-              
+
             </DialogContent>
           </>
       }
+      <Backdrop
+        sx={{ color: "#fff", zIndex: theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Dialog>
   );
 };
