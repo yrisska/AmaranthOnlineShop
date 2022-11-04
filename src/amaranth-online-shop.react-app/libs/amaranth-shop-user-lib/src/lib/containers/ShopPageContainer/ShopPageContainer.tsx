@@ -1,5 +1,5 @@
-import { ProductPagedQuery, useGetPagedProductsQuery } from "@amaranth-online-shop.react-app/redux";
-import { Grid, useMediaQuery, useTheme, Typography, CircularProgress, Pagination, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { ProductPagedQuery, useGetPagedProductsQuery, useGetProductCategoriesQuery } from "@amaranth-online-shop.react-app/redux";
+import { Grid, useMediaQuery, useTheme, Typography, CircularProgress, Pagination, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, FormLabel, RadioGroup, FormHelperText, FormControlLabel, Radio, Button } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
 import ProductList from "../../components/common/ProductList/ProductList";
 import { PageLayout } from "../../layout";
@@ -14,11 +14,19 @@ export const ShopPageContainer = () => {
 
   const {
     data: pagedProducts,
-    isLoading,
-    isSuccess,
-    isError,
-    error
+    isLoading: productsIsLoading,
+    isSuccess: productsIsSuccess,
+    isError: productsIsError,
+    error: productsError
   } = useGetPagedProductsQuery(productPagedQuery);
+
+  const {
+    data: productCategories,
+    isLoading: productCategoriesIsLoading,
+    isSuccess: productCategoriesIsSuccess,
+    isError: productCategoriesIsError,
+    error: productCategoriesError
+  } = useGetProductCategoriesQuery();
 
   const handleChangePage = useCallback((event: ChangeEvent<unknown>, page: number) => {
     setProductPagedQuery((prevState) => ({ ...prevState, pageIndex: "" + page }));
@@ -29,6 +37,17 @@ export const ShopPageContainer = () => {
     const columnAndOrder = event.target.value.split(" ");
     setProductPagedQuery((prevState) => ({ ...prevState, sortingColumnName: columnAndOrder[0], sortDirection: columnAndOrder[1] }));
   }, []);
+
+  const handleCategoryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+    if (productPagedQuery.productCategory === value) {
+      return;
+    }
+    setProductPagedQuery((prevState) => ({ ...prevState, productCategory: value, pageIndex: "1" }));
+  }, [],);
+
+  const handleClearFilters = useCallback(() => {
+    setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1" }));
+  }, [],);
 
   return (
     <PageLayout
@@ -64,21 +83,45 @@ export const ShopPageContainer = () => {
           container
           item
           xs={0.4}
-          justifyContent="center"
+          justifyContent="flex-start"
         >
+          <Grid
+            item
+            lg={3.2}
+          >
+
+          </Grid>
           <Grid
             container
             item
-            lg={5.8}
+            lg={5.3}
             xs={11}
-            justifyContent="flex-end"
+            justifyContent="space-between"
+            alignItems="center"
           >
+            {!isDownLg &&
+              <Button
+                variant="outlined"
+                color="error"
+                size="medium"
+                sx={{
+                  height: "60%",
+                  textTransform: "none",
+                }}
+                onClick={handleClearFilters}
+              >
+                Clear filters
+              </Button>
+            }
             <FormControl>
               <InputLabel id="sort-select-label">Sort</InputLabel>
               <Select
                 labelId="sort-select-label"
                 id="sort-select"
-                value={"id asc"}
+                value={productPagedQuery.sortingColumnName ?
+                  productPagedQuery.sortingColumnName + " " + productPagedQuery.sortDirection
+                  : "id asc"
+                }
                 label="Age"
                 onChange={handleSelectSortChange}
               >
@@ -94,23 +137,55 @@ export const ShopPageContainer = () => {
           item
           xs={10}
           width={"100%"}
-          justifyContent="center"
+          justifyContent="flex-start"
         >
           {
             !isDownLg &&
             <Grid
+              item
+              lg={2.4}
+            >
+
+            </Grid>
+          }
+          {!isDownLg &&
+            <Grid
               container
               item
-              bgcolor="blue"
-              lg={1.2}
+              direction="column"
+              component="form"
+              lg={1.5}
+              alignContent="flex-end"
+              textAlign="end"
             >
-              b
+              {
+                !productCategoriesIsLoading && productCategoriesIsSuccess && productCategories &&
+                <FormControl>
+                  <FormLabel id="radio-categories">Category : </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="radio-categories"
+                    name="radio-buttons-group"
+                    onChange={handleCategoryChange}
+                    value={productPagedQuery.productCategory || ""}
+                  >
+                    {productCategories.map(x => (
+                      <FormControlLabel
+                        key={x.id}
+                        value={x.name}
+                        control={<Radio  />}
+                        label={x.name}
+                        labelPlacement="start"
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              }
             </Grid>
           }
           <Grid
             container
             item
-            lg={7}
+            lg={5}
             xs={12}
             direction="column"
             alignItems="center"
@@ -118,11 +193,11 @@ export const ShopPageContainer = () => {
             justifyContent={"center"}
           >
             {
-              isLoading &&
+              productsIsLoading &&
               <CircularProgress />
             }
             {
-              !isLoading && isSuccess && pagedProducts &&
+              !productsIsLoading && productsIsSuccess && pagedProducts &&
               <>
                 <ProductList
                   products={pagedProducts.items}
@@ -139,7 +214,7 @@ export const ShopPageContainer = () => {
               </>
             }
             {
-              !isLoading && isSuccess && !pagedProducts &&
+              !productsIsLoading && productsIsSuccess && !pagedProducts &&
               <Typography
                 variant="h3"
                 color="initial"
