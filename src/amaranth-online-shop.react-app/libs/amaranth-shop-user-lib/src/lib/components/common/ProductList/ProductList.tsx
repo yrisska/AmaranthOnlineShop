@@ -19,7 +19,7 @@ const ProductList: FC<ProductListProps> = ({
       height={isDownLg ? "auto" : "90%"}
       width={isDownLg ? "100%" : "70%"}
       columnGap={isDownLg ? "2vh" : "5vh"}
-      paddingLeft="5vw"
+      paddingLeft="2vh"
     >
       {products.map(product =>
         <Grid
@@ -31,7 +31,7 @@ const ProductList: FC<ProductListProps> = ({
           alignItems="center"
           direction="column"
           height="35vh"
-          lg={3.1}
+          lg={3.5}
           xs={5.5}
         >
           <Box

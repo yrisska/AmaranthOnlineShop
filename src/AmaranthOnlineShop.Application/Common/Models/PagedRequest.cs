@@ -1,6 +1,7 @@
 ﻿namespace AmaranthOnlineShop.Application.Common.Models
 {
-    public abstract class PagedRequest
+    // Should be interface?
+    public abstract class PagedRequest 
     {
         public abstract int PageIndex { get; set; }
         public abstract int PageSize { get; set; }
