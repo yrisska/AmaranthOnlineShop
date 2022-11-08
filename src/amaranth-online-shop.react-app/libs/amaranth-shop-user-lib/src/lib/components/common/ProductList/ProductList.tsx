@@ -40,7 +40,8 @@ const ProductList: FC<ProductListProps> = ({
             sx={{
               aspectRatio: "1",
               width: "75%",
-              height: "auto"
+              maxWidth: "23vmin",
+              height: "auto",
             }}
           />
           <Typography

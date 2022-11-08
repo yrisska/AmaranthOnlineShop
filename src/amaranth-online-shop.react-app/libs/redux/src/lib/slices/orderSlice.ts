@@ -1,11 +1,22 @@
 import { apiSlice } from "../api";
-import { PostOrderResponse } from "../types";
+import {
+  OrderDetailDto, OrderPagedQuery, PagedResult, PostOrderResponse
+} from "../types";
 import { PostOrderRequest } from "../types/requests";
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    postOrder: builder.mutation<PostOrderResponse, {request: PostOrderRequest, token?: string}>({
-      query: (options: {request: PostOrderRequest, token?: string}) => ({
+    getUserOrders: builder.query<PagedResult<OrderDetailDto>, { query: OrderPagedQuery, token?: string }>({
+      query: (options: { query: OrderPagedQuery, token: string }) => ({
+        url: "/orders/user-paginated-search?",
+        params: new URLSearchParams(options.query),
+        headers: {
+          "authorization": `Bearer ${options.token}`
+        }
+      }),
+    }),
+    postOrder: builder.mutation<PostOrderResponse, { request: PostOrderRequest, token?: string }>({
+      query: (options: { request: PostOrderRequest, token?: string }) => ({
         url: "/orders",
         method: "POST",
         body: options.request,
@@ -17,4 +28,4 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
   })
 });
 
-export const { usePostOrderMutation } = ordersApiSlice;
+export const { useGetUserOrdersQuery, usePostOrderMutation } = ordersApiSlice;

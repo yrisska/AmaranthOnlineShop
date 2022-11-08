@@ -46,7 +46,7 @@ export const ShopPageContainer = () => {
   }, [],);
 
   const handleClearFilters = useCallback(() => {
-    setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1" }));
+    setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1", sortingColumnName: "id", sortDirection: "asc" }));
   }, [],);
 
   return (
@@ -125,7 +125,7 @@ export const ShopPageContainer = () => {
                 label="Age"
                 onChange={handleSelectSortChange}
               >
-                <MenuItem value={"id asc"}>By date</MenuItem>
+                <MenuItem value={"id asc"}>Default</MenuItem>
                 <MenuItem value={"price asc"}>Price: Low to High</MenuItem>
                 <MenuItem value={"price desc"}>Price: High to Low</MenuItem>
               </Select>
