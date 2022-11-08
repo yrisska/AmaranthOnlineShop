@@ -1,11 +1,9 @@
-import { ProductDto } from "./ProductDto";
-
-export type ProductPagedResult = {
+export type PagedResult<T> = {
   pageIndex: number,
   pageSize: number,
   total: number,
   totalPages: number,
   hasPreviousPage: boolean,
   hasNextPage: boolean,
-  items: Array<ProductDto>
+  items: Array<T>
 };

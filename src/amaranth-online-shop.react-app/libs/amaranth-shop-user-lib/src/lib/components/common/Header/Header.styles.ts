@@ -14,6 +14,7 @@ export const headerStyles = {
     borderRadius: "50%",
     fontSize: "medium",
     textAlign: "center",
-    verticalAlign: "center"
+    verticalAlign: "center",
+    userSelect: "none"
   }
 };

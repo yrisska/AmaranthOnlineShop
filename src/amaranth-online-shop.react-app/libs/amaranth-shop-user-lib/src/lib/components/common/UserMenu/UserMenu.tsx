@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC, useCallback } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import LoginButton from "../LoginButton/LoginButton";
 import { UserMenuProps } from "./UserMenu.types";
@@ -16,6 +16,14 @@ const UserMenu: FC<UserMenuProps> = ({
 }) => {
   const { loginWithRedirect, user, isAuthenticated, isLoading, logout } = useAuth0();
 
+  const handleLogin = useCallback(() => {
+    loginWithRedirect({
+      appState: {
+        returnTo: `${window.location.pathname}${window.location.search}`,
+      },
+    });
+  }, []);
+
   return (
     <Menu
       id=""
@@ -26,11 +34,7 @@ const UserMenu: FC<UserMenuProps> = ({
     >
       {!isAuthenticated ?
         <MenuItem
-          onClick={() => loginWithRedirect({
-            appState: {
-              returnTo: `${window.location.pathname}${window.location.search}`,
-            }
-          })}
+          onClick={handleLogin}
         >
           <ListItemIcon>
             <LoginIcon fontSize="small" />
@@ -60,6 +64,7 @@ const UserMenu: FC<UserMenuProps> = ({
               <Divider />
               <MenuItem
                 component={RouterLink}
+                disabled
                 to="/account"
               >
                 <ListItemIcon>
@@ -76,7 +81,7 @@ const UserMenu: FC<UserMenuProps> = ({
                 </ListItemIcon>
                 My orders
               </MenuItem>
-              <MenuItem onClick={() => logout({returnTo: window.location.origin})}>
+              <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>
                 <ListItemIcon>
                   <LogoutIcon fontSize="small" />
                 </ListItemIcon>

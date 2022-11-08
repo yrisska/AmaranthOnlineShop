@@ -1,12 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ProductPagedQuery, ProductPagedResult } from "../types";
+import { 
+  PagedResult, ProductDto, ProductPagedQuery 
+} from "../types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "https://localhost:7074/api"}),
   endpoints: builder => ({
-    getPagedProducts: builder.query<ProductPagedResult, ProductPagedQuery>({
-      query: (query: ProductPagedQuery) => "/products/paginated-search?" + new URLSearchParams(query)
+    getPagedProducts: builder.query<PagedResult<ProductDto>, ProductPagedQuery>({
+      query: (query: ProductPagedQuery) => ({
+        url: "/products/paginated-search?",
+        params: new URLSearchParams(query)
+      })
     })
   })
 });
