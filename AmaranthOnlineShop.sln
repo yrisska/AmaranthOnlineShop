@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmaranthOnlineShop.Infrastr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{151AFF1A-70E4-4F79-B8F0-625F82392908}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D162A6D4-C145-4A9E-99F1-70C6725DEC15}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmaranthOnlineShop.UnitTests", "tests\AmaranthOnlineShop.UnitTests\AmaranthOnlineShop.UnitTests.csproj", "{28D3ECD0-2D47-4ED7-834E-47151F8201DE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +35,6 @@ Global
 		{FBF2AAEA-A211-45FB-8A96-19C0CF89CAEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF2AAEA-A211-45FB-8A96-19C0CF89CAEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBF2AAEA-A211-45FB-8A96-19C0CF89CAEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28D3ECD0-2D47-4ED7-834E-47151F8201DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28D3ECD0-2D47-4ED7-834E-47151F8201DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28D3ECD0-2D47-4ED7-834E-47151F8201DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28D3ECD0-2D47-4ED7-834E-47151F8201DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,7 +44,6 @@ Global
 		{D32716F4-F856-47A2-A74F-87CD518C9408} = {151AFF1A-70E4-4F79-B8F0-625F82392908}
 		{477D84F7-C3E8-47A6-96E1-445F72386E2F} = {151AFF1A-70E4-4F79-B8F0-625F82392908}
 		{FBF2AAEA-A211-45FB-8A96-19C0CF89CAEC} = {151AFF1A-70E4-4F79-B8F0-625F82392908}
-		{28D3ECD0-2D47-4ED7-834E-47151F8201DE} = {D162A6D4-C145-4A9E-99F1-70C6725DEC15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33B74817-01F2-482B-829A-3D18DB42C0BE}

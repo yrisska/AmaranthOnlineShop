@@ -11,16 +11,20 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
         private readonly IRepository _repository;
+        private readonly ICloudStorage _cloudStorage;
 
-        public DeleteProductCommandHandler(IRepository repository)
+        public DeleteProductCommandHandler(IRepository repository, ICloudStorage cloudStorage)
         {
             _repository = repository;
+            _cloudStorage = cloudStorage;
         }
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            await _repository.Delete<Product>(request.Id);
+            var product = await _repository.Delete<Product>(request.Id);
             await _repository.SaveChangesAsync();
+
+            await _cloudStorage.DeleteAsync(Path.GetFileName(product.ImageUri));
 
             return Unit.Value;
         }

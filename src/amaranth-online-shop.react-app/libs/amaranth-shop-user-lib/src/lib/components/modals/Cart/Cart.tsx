@@ -167,6 +167,7 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                           <IconButton
                             aria-label="Increment item"
                             onClick={() => dispatch(cartIncrementItem(item.product.id))}
+                            disabled={item.quantity === 20}
                           >
                             <AddIcon />
                           </IconButton>

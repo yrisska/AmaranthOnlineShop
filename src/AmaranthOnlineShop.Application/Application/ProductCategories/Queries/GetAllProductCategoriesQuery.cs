@@ -2,16 +2,15 @@
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
 
 namespace AmaranthOnlineShop.Application.Application.ProductCategories.Queries
 {
-    public class GetAllProductCategoriesQuery : IRequest<IEnumerable<ProductCategoryDto>>
+    public class GetAllProductCategoriesQuery : IRequest<IEnumerable<ProductCategoryListDto>>
     {
 
     }
 
-    public class GetAllProductCategoriesQueryHandler : IRequestHandler<GetAllProductCategoriesQuery, IEnumerable<ProductCategoryDto>>
+    public class GetAllProductCategoriesQueryHandler : IRequestHandler<GetAllProductCategoriesQuery, IEnumerable<ProductCategoryListDto>>
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
@@ -22,11 +21,16 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Queries
             _repository = repository;
         }
 
-        public async Task<IEnumerable<ProductCategoryDto>> Handle(GetAllProductCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductCategoryListDto>> Handle(GetAllProductCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categoriesList = await _repository.GetAll<ProductCategory>();
-            var categoriesDtoList = _mapper.Map<List<ProductCategoryDto>>(categoriesList);
+            var categoriesDtoList = _mapper.Map<List<ProductCategoryListDto>>(categoriesList);
             return categoriesDtoList;
         }
+    }
+    public class ProductCategoryListDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

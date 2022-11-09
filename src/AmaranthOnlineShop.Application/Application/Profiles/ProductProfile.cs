@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using AmaranthOnlineShop.Domain;
-using AmaranthOnlineShop.Application.Application.Products.Responses;
 using AmaranthOnlineShop.Application.Application.Products.Commands;
 using AmaranthOnlineShop.Application.Common.Models;
-using System.Text;
+using AmaranthOnlineShop.Application.Application.Products.Queries;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
@@ -15,13 +14,18 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
                 .ForMember(x => x.ProductCategoryId,
                     y =>
                         y.MapFrom(z => z.ProductCategoryId));
-            CreateMap<Product, ProductListDto>()
+            CreateMap<Product, ProductPagedDto>()
                 .ForMember(x => x.ProductCategory,
                     y =>
                         y.MapFrom(z => z.ProductCategory.Name));
 
             CreateMap<CreateProductCommand, Product>();
-            CreateMap<UpdateProductCommand, Product>();
+            
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
+            CreateMap<decimal?, decimal>().ConvertUsing((src, dest) => src ?? dest);
+            CreateMap<UpdateProductCommand, Product>()
+                .ForAllMembers(options => options
+                    .Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ProductPagedRequest, PagedRequest>()
                 .ForMember(x => x.RequestFilters,

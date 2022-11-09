@@ -8,6 +8,7 @@ namespace AmaranthOnlineShop.API.Controllers
 {
     [Route("api/webhook")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class StripeWebHookController : ControllerBase
     {
         private readonly IMediator _mediator;

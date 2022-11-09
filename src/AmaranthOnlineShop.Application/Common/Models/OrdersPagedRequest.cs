@@ -9,6 +9,7 @@ namespace AmaranthOnlineShop.Application.Common.Models
         public override int PageSize { get; set; } = 9;
         public override string SortingColumnName { get; set; } = "Id";
         public override string SortDirection { get; set; } = "asc";
+        [JsonIgnore]
         public string? UserId { get; set; }
         public OrderStatus? Status { get; set; }
 

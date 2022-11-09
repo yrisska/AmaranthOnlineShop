@@ -1,5 +1,4 @@
-﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
@@ -32,5 +31,22 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
             var orderDto = _mapper.Map<OrderDetailDto>(order);
             return orderDto;
         }
+    }
+    public class OrderDetailDto
+    {
+        public int Id { get; set; }
+        public decimal Total { get; set; }
+        public ICollection<OrderItemDto> OrderItems { get; set; }
+        public OrderStatus Status { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Adress { get; set; }
+        public string Comments { get; set; }
+    }
+    public class OrderItemDto
+    {
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
     }
 }

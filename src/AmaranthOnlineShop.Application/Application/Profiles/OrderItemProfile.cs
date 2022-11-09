@@ -1,11 +1,6 @@
-﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
+﻿using AmaranthOnlineShop.Application.Application.Orders.Queries;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
@@ -14,6 +9,8 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
         public OrderItemProfile()
         {
             CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<OrderItem, OrderItemListDto>();
+            CreateMap<OrderItem, OrderItemPagedDto>();
         }
     }
 }
