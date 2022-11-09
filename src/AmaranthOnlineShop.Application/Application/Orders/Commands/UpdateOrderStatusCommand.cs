@@ -1,5 +1,4 @@
-﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;

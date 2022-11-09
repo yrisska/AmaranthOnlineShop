@@ -1,6 +1,5 @@
 ﻿using AmaranthOnlineShop.Application.Application.ProductCategories.Commands;
 using AmaranthOnlineShop.Application.Application.ProductCategories.Queries;
-using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace AmaranthOnlineShop.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductCategoryDto>> GetAllProductCategories()
+        public async Task<IEnumerable<ProductCategoryListDto>> GetAllProductCategories()
         {
             var productCategories = await _mediator.Send(new GetAllProductCategoriesQuery());
             return productCategories;
@@ -34,10 +33,9 @@ namespace AmaranthOnlineShop.API.Controllers
 
         [HttpPost]
         [Authorize("access:admin-data")]
-        public async Task<ProductCategoryDto> CreateProductCategory(CreateProductCategoryCommand productCategoryForCreateDto)
+        public async Task CreateProductCategory(CreateProductCategoryCommand productCategoryForCreateDto)
         {
-            var productCategoryDto = await _mediator.Send(productCategoryForCreateDto);
-            return productCategoryDto;
+            await _mediator.Send(productCategoryForCreateDto);
         } 
 
         [HttpPut]
