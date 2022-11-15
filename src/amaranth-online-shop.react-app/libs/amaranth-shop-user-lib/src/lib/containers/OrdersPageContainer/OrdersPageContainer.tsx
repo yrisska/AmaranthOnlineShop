@@ -1,8 +1,7 @@
 import { OrderPagedQuery, useGetUserOrdersQuery } from "@amaranth-online-shop.react-app/redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CircularProgress, Grid, Pagination, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Console } from "console";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import OrderList from "../../components/common/OrderList/OrderList";
 import { PageLayout } from "../../layout";
 import { AppRouteEnum } from "../../types";
@@ -42,11 +41,11 @@ export const OrdersPageContainer = () => {
     }
   );
 
-  const handleChangePage = useCallback((event: ChangeEvent<unknown>, page: number) => {
+  const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
     setOrderPagedQuery((prevState) => ({ ...prevState, pageIndex: "" + page }));
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, []);
-  console.log(orderPagedQuery);
+  };
+
   return (
     <PageLayout
       currentPage={AppRouteEnum.ORDERS}

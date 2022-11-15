@@ -33,14 +33,14 @@ namespace AmaranthOnlineShop.API.Controllers
 
         [HttpPost]
         [Authorize("access:admin-data")]
-        public async Task CreateProductCategory(CreateProductCategoryCommand productCategoryForCreateDto)
+        public async Task CreateProductCategory([FromQuery] CreateProductCategoryCommand productCategoryForCreateDto)
         {
             await _mediator.Send(productCategoryForCreateDto);
         } 
 
         [HttpPut]
         [Authorize("access:admin-data")]
-        public async Task UpdateProductCategory(UpdateProductCategoryCommand productCategoryForUpdate)
+        public async Task UpdateProductCategory([FromQuery] UpdateProductCategoryCommand productCategoryForUpdate)
         {
             await _mediator.Send(productCategoryForUpdate);
         }

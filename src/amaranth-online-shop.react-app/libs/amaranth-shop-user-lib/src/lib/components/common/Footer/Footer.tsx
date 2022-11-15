@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, Typography } from "@mui/material";
 
 const Footer = () => {
   const theme = useTheme();
@@ -19,8 +19,13 @@ const Footer = () => {
         overflow: "hidden"
       }}
     >
-      Footer
-    </Box>
+      <Typography
+        variant="h6"
+        color="initial"
+      >
+        © Amaranth Online Shop
+      </Typography>
+    </Box >
   );
 };
 

@@ -24,7 +24,10 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
             var product = await _repository.Delete<Product>(request.Id);
             await _repository.SaveChangesAsync();
 
-            await _cloudStorage.DeleteAsync(Path.GetFileName(product.ImageUri));
+            if (product.ImageUri != _cloudStorage.Placeholder)
+            {
+                await _cloudStorage.DeleteAsync(Path.GetFileName(product.ImageUri));
+            }
 
             return Unit.Value;
         }

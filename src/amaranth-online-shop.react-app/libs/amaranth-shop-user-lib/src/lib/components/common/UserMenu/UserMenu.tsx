@@ -1,8 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import LoginButton from "../LoginButton/LoginButton";
 import { UserMenuProps } from "./UserMenu.types";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -16,13 +15,13 @@ const UserMenu: FC<UserMenuProps> = ({
 }) => {
   const { loginWithRedirect, user, isAuthenticated, isLoading, logout } = useAuth0();
 
-  const handleLogin = useCallback(() => {
+  const handleLogin = () => {
     loginWithRedirect({
       appState: {
         returnTo: `${window.location.pathname}${window.location.search}`,
       },
     });
-  }, []);
+  };
 
   return (
     <Menu
