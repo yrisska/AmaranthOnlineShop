@@ -1,6 +1,7 @@
 import { ProductPagedQuery, useGetPagedProductsQuery, useGetProductCategoriesQuery } from "@amaranth-online-shop.react-app/redux";
 import { Grid, useMediaQuery, useTheme, Typography, CircularProgress, Pagination, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, FormLabel, RadioGroup, FormHelperText, FormControlLabel, Radio, Button } from "@mui/material";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductList from "../../components/common/ProductList/ProductList";
 import { PageLayout } from "../../layout";
 import { AppRouteEnum } from "../../types";
@@ -11,6 +12,23 @@ export const ShopPageContainer = () => {
   const isDownLg = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [productPagedQuery, setProductPagedQuery] = useState<ProductPagedQuery>({});
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!searchParams.toString()) {
+      return;
+    }
+
+    const category = searchParams.get("category");
+    if (category) {
+      setProductPagedQuery((prevState) => ({ ...prevState, productCategory: category }));
+    }
+    const name = searchParams.get("name");
+    if (name) {
+      setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1", name: name }));
+    }
+  }, [searchParams]);
 
   const {
     data: pagedProducts,
@@ -28,26 +46,27 @@ export const ShopPageContainer = () => {
     error: productCategoriesError
   } = useGetProductCategoriesQuery();
 
-  const handleChangePage = useCallback((event: ChangeEvent<unknown>, page: number) => {
+  const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
     setProductPagedQuery((prevState) => ({ ...prevState, pageIndex: "" + page }));
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, []);
+  };
 
-  const handleSelectSortChange = useCallback((event: SelectChangeEvent) => {
+  const handleSelectSortChange = (event: SelectChangeEvent) => {
     const columnAndOrder = event.target.value.split(" ");
-    setProductPagedQuery((prevState) => ({ ...prevState, sortingColumnName: columnAndOrder[0], sortDirection: columnAndOrder[1] }));
-  }, []);
+    setProductPagedQuery((prevState) => ({ ...prevState, sortingColumnName: columnAndOrder[0], sortDirection: columnAndOrder[1], pageIndex: "1" }));
+  };
 
-  const handleCategoryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     if (productPagedQuery.productCategory === value) {
       return;
     }
     setProductPagedQuery((prevState) => ({ ...prevState, productCategory: value, pageIndex: "1" }));
-  }, [],);
+  };
 
-  const handleClearFilters = useCallback(() => {
-    setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1", sortingColumnName: "id", sortDirection: "asc" }));
-  }, [],);
+  const handleClearFilters = () => {
+    setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1", sortingColumnName: "id", sortDirection: "asc", name: "" }));
+    setSearchParams("");
+  };
 
   return (
     <PageLayout
@@ -58,7 +77,8 @@ export const ShopPageContainer = () => {
         container
         height={isDownLg ? "auto" : "160vh"}
         direction="column"
-        justifyContent="center"
+        justifyContent="flex-start"
+        rowSpacing={3}
         alignItems="center"
         width="100%"
         rowGap="1vh"
@@ -71,6 +91,7 @@ export const ShopPageContainer = () => {
           width="100%"
           justifyContent="center"
           alignItems="center"
+          marginTop="3vh"
         >
           <Typography
             variant="h1"
@@ -79,6 +100,26 @@ export const ShopPageContainer = () => {
             Welcome to Shop!
           </Typography>
         </Grid>
+        {
+          productPagedQuery.name &&
+          <Grid
+            item
+            xs={.2}
+            container
+            justifyContent="left"
+            paddingLeft={isDownLg? "" : "27vw"}
+          >
+            <Typography
+              variant="h5"
+              color={theme.palette.primary.contrastText}
+            >
+              «
+              {productPagedQuery.name}
+              »
+              {!productsIsLoading && productsIsSuccess && pagedProducts && " - found " + pagedProducts.total + " products"}
+            </Typography>
+          </Grid>
+        }
         <Grid
           container
           item
@@ -97,7 +138,7 @@ export const ShopPageContainer = () => {
             lg={5.3}
             xs={11}
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="end"
           >
             {!isDownLg &&
               <Button
@@ -135,7 +176,7 @@ export const ShopPageContainer = () => {
         <Grid
           container
           item
-          xs={10}
+          xs={8}
           width={"100%"}
           justifyContent="flex-start"
         >
@@ -168,12 +209,12 @@ export const ShopPageContainer = () => {
                     onChange={handleCategoryChange}
                     value={productPagedQuery.productCategory || ""}
                   >
-                    {productCategories.map(x => (
+                    {productCategories.map(item => (
                       <FormControlLabel
-                        key={x.id}
-                        value={x.name}
-                        control={<Radio  />}
-                        label={x.name}
+                        key={item.id}
+                        value={item.name}
+                        control={<Radio />}
+                        label={item.name}
                         labelPlacement="start"
                       />
                     ))}

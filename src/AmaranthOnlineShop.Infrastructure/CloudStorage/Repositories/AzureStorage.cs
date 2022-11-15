@@ -41,7 +41,7 @@ namespace AmaranthOnlineShop.Infrastructure.CloudStorage.Repositories
             await using var stream = file.OpenReadStream();
             await containerClient.UploadBlobAsync(name, stream);
 
-            return containerClient.Uri.OriginalString;
+            return containerClient.Uri.OriginalString + "/" + name;
         }
     }
 }

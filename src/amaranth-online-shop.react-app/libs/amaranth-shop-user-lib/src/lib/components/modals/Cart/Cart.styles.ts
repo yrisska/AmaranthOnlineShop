@@ -1,4 +1,4 @@
-import { GridSize } from "@mui/material";
+import { GridSize, GridWrap } from "@mui/material";
 import { GridDirection, ResponsiveStyleValue } from "@mui/system";
 import { theme } from "../../../theme/theme";
 
@@ -27,11 +27,12 @@ export const cartStyles = {
     width: "100%",
     paddingRight: "2vh",
   },
-  flexEndItemContainer: {
+  utilityItemContainer: {
     item: true,
     container: true,
     xs: 12 as GridSize,
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginY: "1vh"
   },
   cartItemContainer: {
@@ -44,7 +45,9 @@ export const cartStyles = {
   productImg: {
     aspectRatio: "1",
     width: "100%",
-    height: "auto"
+    height: "auto",
+    objectFit: "scale-down",
+    maxHeight: "90%"
   },
   nameQuantityContainer: {
     height: "100%",
@@ -53,7 +56,8 @@ export const cartStyles = {
     alignItems: "center",
     justifyContent: "space-evenly",
     direction: "column" as ResponsiveStyleValue<GridDirection>,
-    xs: 4 as GridSize,
+    md: 4 as GridSize,
+    xs: 6 as GridSize,
   },
   quantityContainer: {
     item: true,
@@ -61,6 +65,7 @@ export const cartStyles = {
     alignItems: "center",
     justifyContent: "space-around",
     xs: 4 as GridSize,
+    wrap: "no-wrap" as GridWrap
   },
   removePriceContainer: {
     height: "100%",
@@ -69,7 +74,8 @@ export const cartStyles = {
     alignItems: "flex-end",
     justifyContent: "space-evenly",
     direction: "column" as ResponsiveStyleValue<GridDirection>,
-    xs: 4 as GridSize,
+    md: 4 as GridSize,
+    xs: 2 as GridSize,
   },
   form: {
     paddingTop: "4vh",

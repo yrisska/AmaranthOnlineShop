@@ -55,6 +55,15 @@ const cartSlice = createSlice({
         cartItem.totalPrice = currency(cartItem.totalPrice).subtract(cartItem.product.price).value;
       }
     },
+    cartSetItemQuantity: (
+      state, action: PayloadAction<{id: number, value: number}>
+    ) => {
+      const cartItem = state.items.find(x => x.product.id === action.payload.id);
+      if (cartItem) {
+        cartItem.quantity = action.payload.value;
+        cartItem.totalPrice = currency(cartItem.product.price).multiply(cartItem.quantity).value;
+      }
+    },
   }
 });
 
@@ -80,6 +89,6 @@ export const selectCartTotalPrice: Selector<RootState, currency> = createSelecto
   )
 );
 
-export const { cartAddItem, cartRemoveItem, cartRemoveAll, cartIncrementItem, cartDecrementItem } = cartSlice.actions;
+export const { cartAddItem, cartRemoveItem, cartRemoveAll, cartIncrementItem, cartDecrementItem, cartSetItemQuantity } = cartSlice.actions;
 
 export default cartSlice.reducer;
