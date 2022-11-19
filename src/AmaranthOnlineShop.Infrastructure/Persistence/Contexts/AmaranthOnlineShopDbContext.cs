@@ -7,7 +7,8 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Contexts
     public class AmaranthOnlineShopDbContext : DbContext
     {
         public AmaranthOnlineShopDbContext(DbContextOptions<AmaranthOnlineShopDbContext> options) : base(options)
-        { }
+        {
+        }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }

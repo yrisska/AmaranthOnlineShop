@@ -14,11 +14,15 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
 
             builder.HasData(
                 new ProductCategory
-                    {Id = 1, Name = "Skin Care", ImageUri = "https://yrisska.blob.core.windows.net/images/category1.jpg"},
+                {
+                    Id = 1, Name = "Skin Care", ImageUri = "https://yrisska.blob.core.windows.net/images/category1.jpg"
+                },
                 new ProductCategory
                     {Id = 2, Name = "Meal", ImageUri = "https://yrisska.blob.core.windows.net/images/category2.webp"},
-                new ProductCategory 
-                    {Id = 3, Name = "Cosmetics", ImageUri = "https://yrisska.blob.core.windows.net/images/category3.jpg" }
+                new ProductCategory
+                {
+                    Id = 3, Name = "Cosmetics", ImageUri = "https://yrisska.blob.core.windows.net/images/category3.jpg"
+                }
             );
         }
     }

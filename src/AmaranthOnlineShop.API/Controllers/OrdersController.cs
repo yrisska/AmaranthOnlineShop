@@ -27,38 +27,37 @@ namespace AmaranthOnlineShop.API.Controllers
             {
                 makeOrderCommand.UserId = userId;
             }
+
             var response = await _mediator.Send(makeOrderCommand);
             return response;
         }
 
-        [HttpGet]
-        [Authorize("access:admin-data")]
-        public async Task<IEnumerable<OrderDetailListDto>> GetAllOrders()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var orderDetailsDto = await _mediator.Send(new GetAllOrdersQuery());
-            return orderDetailsDto;
-        }
         [HttpGet("{id}")]
         [Authorize("access:admin-data")]
-        public async Task<OrderDetailDto> GetOrderByID(int id)
+        public async Task<OrderDetailDto> GetOrder(int id)
         {
-            var orderDetailDto = await _mediator.Send(new GetOrderByIdQuery() {Id = id});
+            var orderDetailDto = await _mediator.Send(new GetOrderByIdQuery() { Id = id });
             return orderDetailDto;
         }
+
         [HttpGet("user-paginated-search")]
         [Authorize]
-        public async Task<PaginatedResult<OrderDetailPagedDto>> GetPagedUserOrders([FromQuery] OrdersPagedRequest ordersPagedRequest)
+        public async Task<PaginatedResult<OrderDetailPagedDto>> GetPagedUserOrders(
+            [FromQuery] OrdersPagedRequest ordersPagedRequest)
         {
             ordersPagedRequest.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var pagedOrdersDto = await _mediator.Send(new GetOrdersPagedQuery { OrdersPagedRequest = ordersPagedRequest });
+            var pagedOrdersDto = await _mediator.Send(new GetOrdersPagedQuery
+            { OrdersPagedRequest = ordersPagedRequest });
             return pagedOrdersDto;
         }
+
         [HttpGet("paginated-search")]
         [Authorize("access:admin-data")]
-        public async Task<PaginatedResult<OrderDetailPagedDto>> GetPagedOrders([FromQuery] OrdersPagedRequest ordersPagedRequest)
+        public async Task<PaginatedResult<OrderDetailPagedDto>> GetPagedOrders(
+            [FromQuery] OrdersPagedRequest ordersPagedRequest)
         {
-            var pagedOrdersDto = await _mediator.Send(new GetOrdersPagedQuery { OrdersPagedRequest = ordersPagedRequest });
+            var pagedOrdersDto = await _mediator.Send(new GetOrdersPagedQuery
+            { OrdersPagedRequest = ordersPagedRequest });
             return pagedOrdersDto;
         }
     }

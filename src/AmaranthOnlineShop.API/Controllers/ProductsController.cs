@@ -4,6 +4,7 @@ using AmaranthOnlineShop.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace AmaranthOnlineShop.API.Controllers
 {
     [Route("api/products")]
@@ -18,7 +19,8 @@ namespace AmaranthOnlineShop.API.Controllers
         }
 
         [HttpGet("paginated-search")]
-        public async Task<PaginatedResult<ProductPagedDto>> GetPagedProducts([FromQuery]ProductPagedRequest productPagedRequest)
+        public async Task<PaginatedResult<ProductPagedDto>> GetPagedProducts(
+            [FromQuery] ProductPagedRequest productPagedRequest)
         {
             var response = await _mediator.Send(new GetProductsPagedQuery { ProductPagedRequest = productPagedRequest });
             return response;
@@ -27,29 +29,32 @@ namespace AmaranthOnlineShop.API.Controllers
         [HttpGet("{id}")]
         public async Task<ProductDto> GetProduct(int id)
         {
-            var productDto = await _mediator.Send(new GetProductByIdQuery() {ProductId = id});
+            var productDto = await _mediator.Send(new GetProductByIdQuery() { ProductId = id });
             return productDto;
         }
 
         [HttpPost]
         [Authorize("access:admin-data")]
-        public async Task CreateProduct([FromForm] CreateProductCommand productForCreateDto)
+        public async Task<ProductCreatedDto> CreateProduct([FromForm] CreateProductCommand productForCreateDto)
         {
-            await _mediator.Send(productForCreateDto);
-        } 
+            var productCreatedDto = await _mediator.Send(productForCreateDto);
+            return productCreatedDto;
+        }
 
         [HttpPut]
         [Authorize("access:admin-data")]
-        public async Task UpdateProduct([FromForm] UpdateProductCommand productForUpdate)
+        public async Task<ProductUpdatedDto> UpdateProduct([FromForm] UpdateProductCommand productForUpdate)
         {
-            await _mediator.Send(productForUpdate);
+            var productUpdatedDto = await _mediator.Send(productForUpdate);
+            return productUpdatedDto;
         }
 
         [HttpDelete("{id}")]
         [Authorize("access:admin-data")]
-        public async Task DeleteProduct(int id)
+        public async Task<ProductDeletedDto> DeleteProduct(int id)
         {
-            await _mediator.Send(new DeleteProductCommand() {Id = id});
+            var productDeletedDto = await _mediator.Send(new DeleteProductCommand() { Id = id });
+            return productDeletedDto;
         }
     }
 }

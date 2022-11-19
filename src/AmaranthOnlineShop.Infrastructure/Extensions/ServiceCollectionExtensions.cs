@@ -12,7 +12,8 @@ namespace AmaranthOnlineShop.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddDbContext<AmaranthOnlineShopDbContext>(optionBuilder =>
             {

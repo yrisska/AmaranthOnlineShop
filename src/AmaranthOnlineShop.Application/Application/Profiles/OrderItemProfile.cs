@@ -9,7 +9,6 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
         public OrderItemProfile()
         {
             CreateMap<OrderItem, OrderItemDto>();
-            CreateMap<OrderItem, OrderItemListDto>();
             CreateMap<OrderItem, OrderItemPagedDto>();
         }
     }

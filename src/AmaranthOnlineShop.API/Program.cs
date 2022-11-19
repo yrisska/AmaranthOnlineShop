@@ -35,7 +35,6 @@ namespace AmaranthOnlineShop.API
                 );
             }
 
-            
             app.UseExceptionHandling();
             app.UseHttpsRedirection();
             app.UseAuthentication();

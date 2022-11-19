@@ -2,12 +2,6 @@
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.Orders.Queries
 {
@@ -15,6 +9,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
     {
         public int Id { get; set; }
     }
+
     public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, OrderDetailDto>
     {
         private readonly IRepository _repository;
@@ -25,6 +20,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
             _mapper = mapper;
             _repository = repository;
         }
+
         public async Task<OrderDetailDto> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
             var order = await _repository.GetByIdWithInclude<OrderDetail>(request.Id, x => x.OrderItems);
@@ -32,6 +28,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
             return orderDto;
         }
     }
+
     public class OrderDetailDto
     {
         public int Id { get; set; }
@@ -44,6 +41,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
         public string Adress { get; set; }
         public string Comments { get; set; }
     }
+
     public class OrderItemDto
     {
         public int ProductId { get; set; }

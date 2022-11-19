@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AmaranthOnlineShop.Application.Application.Products.Commands
 {
-    public class CreateProductCommand : IRequest
+    public class CreateProductCommand : IRequest<ProductCreatedDto>
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -15,7 +15,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
         public IFormFile? ImageFile { get; set; }
     }
 
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ProductCreatedDto>
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
             _cloudStorage = cloudStorage;
         }
 
-        public async Task<Unit> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductCreatedDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var product = _mapper.Map<Product>(request);
             _repository.Add(product);
@@ -46,10 +46,19 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
             {
                 product.ImageUri = _cloudStorage.Placeholder;
             }
-            
+
             await _repository.SaveChangesAsync();
 
-            return Unit.Value;
+            return _mapper.Map<ProductCreatedDto>(product);
         }
+    }
+    public class ProductCreatedDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string ImageUri { get; set; }
+        public int ProductCategoryId { get; set; }
     }
 }

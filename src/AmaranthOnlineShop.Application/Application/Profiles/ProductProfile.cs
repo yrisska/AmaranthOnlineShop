@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-using AmaranthOnlineShop.Domain;
-using AmaranthOnlineShop.Application.Application.Products.Commands;
-using AmaranthOnlineShop.Application.Common.Models;
+﻿using AmaranthOnlineShop.Application.Application.Products.Commands;
 using AmaranthOnlineShop.Application.Application.Products.Queries;
+using AmaranthOnlineShop.Domain;
+using AutoMapper;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
@@ -10,27 +9,21 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductDto>()
-                .ForMember(x => x.ProductCategoryId,
-                    y =>
-                        y.MapFrom(z => z.ProductCategoryId));
-            CreateMap<Product, ProductPagedDto>()
-                .ForMember(x => x.ProductCategory,
-                    y =>
-                        y.MapFrom(z => z.ProductCategory.Name));
+            CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductPagedDto>();
+
+            CreateMap<Product, ProductCreatedDto>();
+            CreateMap<Product, ProductUpdatedDto>();
+            CreateMap<Product, ProductDeletedDto>();
 
             CreateMap<CreateProductCommand, Product>();
-            
+
+            //We might want to update only specific fields
             CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
             CreateMap<decimal?, decimal>().ConvertUsing((src, dest) => src ?? dest);
             CreateMap<UpdateProductCommand, Product>()
                 .ForAllMembers(options => options
                     .Condition((src, dest, srcMember) => srcMember != null));
-
-            CreateMap<ProductPagedRequest, PagedRequest>()
-                .ForMember(x => x.RequestFilters,
-                    y =>
-                        y.MapFrom(z => z.RequestFilters));
         }
     }
 }

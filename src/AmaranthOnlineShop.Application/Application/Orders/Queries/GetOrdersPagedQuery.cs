@@ -3,12 +3,6 @@ using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.Orders.Queries
 {
@@ -28,8 +22,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
             _repository = repository;
         }
 
-        public async Task<PaginatedResult<OrderDetailPagedDto>> Handle(GetOrdersPagedQuery request,
-            CancellationToken cancellationToken)
+        public async Task<PaginatedResult<OrderDetailPagedDto>> Handle(GetOrdersPagedQuery request, CancellationToken cancellationToken)
         {
             var pagedProductsDto = await _repository.GetPagedData<OrderDetail, OrderDetailPagedDto>(request.OrdersPagedRequest);
             return pagedProductsDto;

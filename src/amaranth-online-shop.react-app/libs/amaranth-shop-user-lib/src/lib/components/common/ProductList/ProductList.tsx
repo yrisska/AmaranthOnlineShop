@@ -1,5 +1,5 @@
 import { cartAddItem, useAppDispatch } from "@amaranth-online-shop.react-app/redux";
-import { Box, CircularProgress, Grid, Pagination, Typography, IconButton, useTheme, Paper } from "@mui/material";
+import { Box, Grid, Typography, IconButton, useTheme, Paper } from "@mui/material";
 import currency from "currency.js";
 import { FC } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";

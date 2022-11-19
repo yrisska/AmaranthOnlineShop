@@ -14,6 +14,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
+
         public GetProductByIdQueryHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
@@ -28,6 +29,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
             return productDto;
         }
     }
+
     public class ProductDto
     {
         public int Id { get; set; }

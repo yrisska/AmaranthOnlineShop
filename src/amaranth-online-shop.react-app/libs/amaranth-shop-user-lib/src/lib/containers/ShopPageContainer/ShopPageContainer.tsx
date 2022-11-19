@@ -1,4 +1,4 @@
-import { ProductPagedQuery, useGetPagedProductsQuery, useGetProductCategoriesQuery } from "@amaranth-online-shop.react-app/redux";
+import { ProductPagedQuery, useGetPagedProductCategoriesQuery, useGetPagedProductsQuery } from "@amaranth-online-shop.react-app/redux";
 import { Grid, useMediaQuery, useTheme, Typography, CircularProgress, Pagination, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, FormLabel, RadioGroup, FormHelperText, FormControlLabel, Radio, Button } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -24,27 +24,25 @@ export const ShopPageContainer = () => {
     if (category) {
       setProductPagedQuery((prevState) => ({ ...prevState, productCategory: category }));
     }
-    const name = searchParams.get("name");
-    if (name) {
-      setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1", name: name }));
+    if (searchParams.has("name")) {
+      setProductPagedQuery((prevState) => ({ ...prevState, productCategory: "", pageIndex: "1", name: searchParams.get("name") || "" }));
     }
   }, [searchParams]);
 
   const {
     data: pagedProducts,
     isLoading: productsIsLoading,
-    isSuccess: productsIsSuccess,
-    isError: productsIsError,
-    error: productsError
+    isSuccess: productsIsSuccess
   } = useGetPagedProductsQuery(productPagedQuery);
 
   const {
     data: productCategories,
     isLoading: productCategoriesIsLoading,
-    isSuccess: productCategoriesIsSuccess,
-    isError: productCategoriesIsError,
-    error: productCategoriesError
-  } = useGetProductCategoriesQuery();
+    isSuccess: productCategoriesIsSuccess
+  } = useGetPagedProductCategoriesQuery({
+    pageIndex: "1",
+    pageSize: "10"
+  });
 
   const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
     setProductPagedQuery((prevState) => ({ ...prevState, pageIndex: "" + page }));
@@ -107,7 +105,7 @@ export const ShopPageContainer = () => {
             xs={.2}
             container
             justifyContent="left"
-            paddingLeft={isDownLg? "" : "27vw"}
+            paddingLeft={isDownLg ? "" : "27vw"}
           >
             <Typography
               variant="h5"
@@ -200,7 +198,7 @@ export const ShopPageContainer = () => {
               textAlign="end"
             >
               {
-                !productCategoriesIsLoading && productCategoriesIsSuccess && productCategories &&
+                !productCategoriesIsLoading && productCategoriesIsSuccess && productCategories.items &&
                 <FormControl>
                   <FormLabel id="radio-categories">Category : </FormLabel>
                   <RadioGroup
@@ -209,7 +207,7 @@ export const ShopPageContainer = () => {
                     onChange={handleCategoryChange}
                     value={productPagedQuery.productCategory || ""}
                   >
-                    {productCategories.map(item => (
+                    {productCategories.items.map(item => (
                       <FormControlLabel
                         key={item.id}
                         value={item.name}

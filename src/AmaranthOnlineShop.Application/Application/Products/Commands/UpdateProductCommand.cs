@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AmaranthOnlineShop.Application.Application.Products.Commands
 {
-    public class UpdateProductCommand : IRequest
+    public class UpdateProductCommand : IRequest<ProductUpdatedDto>
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -16,7 +16,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
         public IFormFile? ImageFile { get; set; }
         public int? ProductCategoryId { get; set; }
     }
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ProductUpdatedDto>
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
             _mapper = mapper;
             _cloudStorage = cloudStorage;
         }
-        public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductUpdatedDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = await _repository.GetById<Product>(request.Id) ??
                           throw new EntityNotFoundException("Entity with specified id not found");
@@ -45,7 +45,16 @@ namespace AmaranthOnlineShop.Application.Application.Products.Commands
 
             await _repository.SaveChangesAsync();
 
-            return Unit.Value;
+            return _mapper.Map<ProductUpdatedDto>(product);
         }
+    }
+    public class ProductUpdatedDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string ImageUri { get; set; }
+        public int ProductCategoryId { get; set; }
     }
 }

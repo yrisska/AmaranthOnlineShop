@@ -1,5 +1,6 @@
 ﻿using AmaranthOnlineShop.Application.Application.ProductCategories.Commands;
 using AmaranthOnlineShop.Application.Application.ProductCategories.Queries;
+using AmaranthOnlineShop.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace AmaranthOnlineShop.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<ProductCategoryListDto>> GetAllProductCategories()
+        [HttpGet("paginated-search")]
+        public async Task<PaginatedResult<ProductCategoryPagedDto>> GetPagedProductCategories(
+            [FromQuery] ProductCategoriesPagedRequest request)
         {
-            var productCategories = await _mediator.Send(new GetAllProductCategoriesQuery());
+            var productCategories = await _mediator.Send(new GetPagedProductCategoriesQuery
+            { ProductCategoriesPagedRequest = request });
             return productCategories;
         }
 
@@ -31,25 +34,38 @@ namespace AmaranthOnlineShop.API.Controllers
             return productCategoryDto;
         }
 
+        [HttpGet("many")]
+        public async Task<IEnumerable<ProductCategoryListDto>> GetManyProductCategories([FromQuery] int[] identifiers)
+        {
+            var productCategoryListDto =
+                await _mediator.Send(new GetManyProductCategoriesQuery() { Identifiers = identifiers });
+            return productCategoryListDto;
+        }
+
         [HttpPost]
         [Authorize("access:admin-data")]
-        public async Task CreateProductCategory([FromQuery] CreateProductCategoryCommand productCategoryForCreateDto)
+        public async Task<ProductCategoryCreatedDto> CreateProductCategory(
+            [FromQuery] CreateProductCategoryCommand productCategoryForCreateDto)
         {
-            await _mediator.Send(productCategoryForCreateDto);
-        } 
+            var productCategoryCreatedDto = await _mediator.Send(productCategoryForCreateDto);
+            return productCategoryCreatedDto;
+        }
 
         [HttpPut]
         [Authorize("access:admin-data")]
-        public async Task UpdateProductCategory([FromQuery] UpdateProductCategoryCommand productCategoryForUpdate)
+        public async Task<ProductCategoryUpdatedDto> UpdateProductCategory(
+            [FromQuery] UpdateProductCategoryCommand productCategoryForUpdate)
         {
-            await _mediator.Send(productCategoryForUpdate);
+            var productCategoryUpdatedDto = await _mediator.Send(productCategoryForUpdate);
+            return productCategoryUpdatedDto;
         }
 
         [HttpDelete("{id}")]
         [Authorize("access:admin-data")]
-        public async Task DeleteProductCategory(int id)
+        public async Task<ProductCategoryDeletedDto> DeleteProductCategory(int id)
         {
-            await _mediator.Send(new DeleteProductCategoryCommand() {Id = id});
+            var productCategoryDeletedDto = await _mediator.Send(new DeleteProductCategoryCommand() { Id = id });
+            return productCategoryDeletedDto;
         }
     }
 }

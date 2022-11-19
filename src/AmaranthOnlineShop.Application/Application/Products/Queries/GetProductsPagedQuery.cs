@@ -15,6 +15,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
+
         public GetProductsPagedQueryHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
@@ -23,10 +24,12 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
 
         public async Task<PaginatedResult<ProductPagedDto>> Handle(GetProductsPagedQuery request, CancellationToken cancellationToken)
         {
-            var pagedProductsDto = await _repository.GetPagedData<Product, ProductPagedDto>(request.ProductPagedRequest);
+            var pagedProductsDto =
+                await _repository.GetPagedData<Product, ProductPagedDto>(request.ProductPagedRequest);
             return pagedProductsDto;
         }
     }
+
     public class ProductPagedDto
     {
         public int Id { get; set; }
@@ -34,6 +37,6 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string ImageUri { get; set; }
-        public string ProductCategory { get; set; }
+        public int ProductCategoryId { get; set; }
     }
 }

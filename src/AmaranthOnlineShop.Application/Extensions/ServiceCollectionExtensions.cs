@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using System.Reflection;
-using AmaranthOnlineShop.Application.Common.Behaviors;
+﻿using AmaranthOnlineShop.Application.Common.Behaviors;
 using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace AmaranthOnlineShop.Application.Extensions
 {

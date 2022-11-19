@@ -1,4 +1,4 @@
-import { useGetProductCategoriesQuery } from "@amaranth-online-shop.react-app/redux";
+import { useGetPagedProductCategoriesQuery } from "@amaranth-online-shop.react-app/redux";
 import { Box, Grid, ImageList, ImageListItem, ImageListItemBar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { PageLayout } from "../../layout";
@@ -10,10 +10,13 @@ export const HomePageContainer = () => {
   const isDownLg = useMediaQuery(theme.breakpoints.down("lg"));
 
   const {
-    data: productCategories,
+    data: pagedProductCategories,
     isLoading: productCategoriesIsLoading,
     isSuccess: productCategoriesIsSuccess,
-  } = useGetProductCategoriesQuery();
+  } = useGetPagedProductCategoriesQuery({
+    pageIndex: "1",
+    pageSize: "3",
+  });
 
   const navigate = useNavigate();
   const handleCategorySelect = (category: string) => {
@@ -55,7 +58,7 @@ export const HomePageContainer = () => {
           </Typography>
         </Grid>
         {
-          !productCategoriesIsLoading && productCategoriesIsSuccess && productCategories &&
+          !productCategoriesIsLoading && productCategoriesIsSuccess && pagedProductCategories.items &&
           <Grid
             item
             container
@@ -67,7 +70,7 @@ export const HomePageContainer = () => {
               cols={isDownLg ? 1 : 3}
               gap={25}
             >
-              {productCategories.slice(0, 3).map(item => (
+              {pagedProductCategories.items.map(item => (
                 <ImageListItem
                   key={item.id}
                   sx={{
