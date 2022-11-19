@@ -1,12 +1,11 @@
 ﻿using AmaranthOnlineShop.Application;
 using AmaranthOnlineShop.Application.Extensions;
+using AmaranthOnlineShop.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
-using AmaranthOnlineShop.Infrastructure.Extensions;
 
 namespace AmaranthOnlineShop.API.Extensions
 {
@@ -96,10 +95,6 @@ namespace AmaranthOnlineShop.API.Extensions
                         new[] {"openid"}
                     }
                 });
-
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //options.IncludeXmlComments(xmlPath);
             });
         }
     }

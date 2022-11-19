@@ -20,7 +20,7 @@ namespace AmaranthOnlineShop.API.Middlewares
             }
 
             await using var transaction = await context.Database.BeginTransactionAsync();
-            
+
             await _next(httpContext);
 
             await context.Database.CommitTransactionAsync();

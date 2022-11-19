@@ -13,7 +13,7 @@ const UserMenu: FC<UserMenuProps> = ({
   anchorEl,
   handleClose
 }) => {
-  const { loginWithRedirect, user, isAuthenticated, isLoading, logout } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
 
   const handleLogin = () => {
     loginWithRedirect({
@@ -51,13 +51,13 @@ const UserMenu: FC<UserMenuProps> = ({
                 {user.picture ?
                   <Avatar src={user.picture} />
                   :
-                  <Avatar children={user.name?.at(0) || "A"} />
+                  <Avatar children={user.name?.at(0) || user.email?.at(0)} />
                 }
                 <Typography
                   variant="body1"
                   color="initial"
                 >
-                  {user.given_name || "Anonymous"}
+                  {user.given_name || user.email || "Anonymous"}
                 </Typography>
               </MenuItem>
               <Divider />

@@ -17,6 +17,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
         public string Domain { get; set; }
         public string? UserId { get; set; }
     }
+
     public class MakeOrderCommandHandler : IRequestHandler<MakeOrderCommand, MakeOrderCommandResponse>
     {
         private readonly IPaymentProvider _paymentProvider;
@@ -29,12 +30,15 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
             _repository = repository;
             _mapper = mapper;
         }
+
         public async Task<MakeOrderCommandResponse> Handle(MakeOrderCommand request, CancellationToken cancellationToken)
         {
             var orderDetail = _mapper.Map<OrderDetail>(request);
             orderDetail.Status = OrderStatus.OrderPaymentDue;
 
-            var products = await _repository.GetRangeByIds<Product>(request.CartItems.Select(x => x.ProductId).ToArray());
+            var products =
+                await _repository.GetRangeByIds<Product>(request.CartItems.Select(x => x.ProductId).ToArray());
+
             var total = products.Aggregate(0m,
                 (x, y) => x + decimal.Round(y.Price * request.CartItems.First(z => z.ProductId == y.Id).Quantity, 2));
             orderDetail.Total = total;
@@ -55,6 +59,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
             };
         }
     }
+
     public class MakeOrderCommandResponse
     {
         public string RedirectUrl { get; set; }

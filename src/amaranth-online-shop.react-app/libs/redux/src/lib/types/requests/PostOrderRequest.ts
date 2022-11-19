@@ -6,7 +6,6 @@ export type PostOrderRequest = {
   adress: string,
   comments: string,
   domain: string,
-  token?: string,
 };
 
 export type CartItemRequest = {

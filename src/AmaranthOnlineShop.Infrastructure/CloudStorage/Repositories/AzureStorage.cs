@@ -9,6 +9,7 @@ namespace AmaranthOnlineShop.Infrastructure.CloudStorage.Repositories
     {
         private readonly string _storageConnectionString;
         private readonly string _storageContainerName;
+
         public string Placeholder
         {
             get

@@ -4,6 +4,5 @@
     {
         public FilterLogicalOperators LogicalOperator { get; set; }
         public IList<Filter> Filters { get; set; }
-
     }
 }

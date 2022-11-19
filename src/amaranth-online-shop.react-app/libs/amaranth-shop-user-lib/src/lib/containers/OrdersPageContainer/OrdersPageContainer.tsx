@@ -1,6 +1,6 @@
 import { OrderPagedQuery, useGetUserOrdersQuery } from "@amaranth-online-shop.react-app/redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { CircularProgress, Grid, Pagination, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { CircularProgress, Grid, Pagination, Typography, useTheme } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import OrderList from "../../components/common/OrderList/OrderList";
 import { PageLayout } from "../../layout";
@@ -9,9 +9,8 @@ import { AppRouteEnum } from "../../types";
 export const OrdersPageContainer = () => {
 
   const theme = useTheme();
-  const isDownLg = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const [orderPagedQuery, setOrderPagedQuery] = useState<OrderPagedQuery>({pageSize: "5"});
+  const [orderPagedQuery, setOrderPagedQuery] = useState<OrderPagedQuery>({pageSize: "5", sortDirection: "desc"});
   const [token, setToken] = useState<string | null>(null);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -29,8 +28,6 @@ export const OrdersPageContainer = () => {
     data: pagedOrders,
     isLoading: ordersIsLoading,
     isSuccess: ordersIsSuccess,
-    isError: ordersIsError,
-    error: ordersError,
     isUninitialized: ordersIsUninitialized
   } = useGetUserOrdersQuery({
     query: orderPagedQuery,
