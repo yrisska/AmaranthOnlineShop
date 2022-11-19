@@ -1,6 +1,6 @@
-import { AppBar, Box, Grid, IconButton, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Grid, IconButton, InputBase, Paper, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import MenuDrawer from "../MenuDrawer/MenuDrawer";
-import { Link, useLocation } from "react-router-dom";
+import { createSearchParams, Link, useLocation, useNavigate } from "react-router-dom";
 import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
 import { AppRouteEnum, PublicRouteEnum } from "../../../types";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -8,11 +8,10 @@ import { headerStyles } from "./Header.styles";
 import { useSelector } from "react-redux";
 import { selectCartTotalQuantity } from "@amaranth-online-shop.react-app/redux";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Cart from "../../modals/Cart/Cart";
-import LoginButton from "../LoginButton/LoginButton";
 import UserMenu from "../UserMenu/UserMenu";
-import { useAuth0 } from "@auth0/auth0-react";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Header = () => {
 
@@ -20,27 +19,44 @@ const Header = () => {
   const isDownLg = useMediaQuery(theme.breakpoints.down("lg"));
   const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [search, setSearch] = useState("");
 
   const [cartIsOpen, setCartIsOpen] = useState(false);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
 
-  const openUserMenuHandler = useCallback((event: React.MouseEvent<HTMLElement>) => {
+  const searchChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const submitSearchHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    navigate({
+      pathname: AppRouteEnum.SHOP,
+      search: createSearchParams({
+        name: search
+      }).toString()
+    });
+  };
+
+  const openUserMenuHandler = (event: React.MouseEvent<HTMLElement>) => {
     setUserMenuAnchor(event.currentTarget);
-  }, []);
+  };
 
-  const closeUserMenuHandler = useCallback(() => {
+  const closeUserMenuHandler = () => {
     setUserMenuAnchor(null);
-  }, []);
+  };
 
-  const openCartEventHandler = useCallback(() => {
+  const openCartEventHandler = () => {
     setCartIsOpen(true);
-  }, []);
+  };
 
-  const closeCartEventHandler = useCallback(() => {
+  const closeCartEventHandler = () => {
     setCartIsOpen(false);
-  }, []);
+  };
 
   return (
     <>
@@ -125,18 +141,37 @@ const Header = () => {
               }
               <Grid
                 item
-                lg={4}
-                md={4}
-                xs={4}
+                lg={3}
+                xs={8}
+                container
               >
-
+                <Paper
+                  component="form"
+                  sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: "100%" }}
+                  onSubmit={submitSearchHandler}
+                >
+                  <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    value={search}
+                    onChange={searchChangeHandler}
+                    placeholder="Search for products"
+                    inputProps={{ "aria-label": "search for products" }}
+                  />
+                  <IconButton
+                    type="submit"
+                    sx={{ p: "10px" }}
+                    aria-label="search"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </Paper>
               </Grid>
               <Grid
                 container
                 justifyContent="space-evenly"
                 item
-                md={2}
-                xs={3}
+                md={1.5}
+                xs={2}
               >
                 {!isDownMd &&
                   <>

@@ -1,5 +1,4 @@
 ﻿using AmaranthOnlineShop.Application.Common.Interfaces;
-using Stripe;
 using Stripe.Checkout;
 
 namespace AmaranthOnlineShop.Infrastructure.Payment

@@ -1,5 +1,4 @@
-﻿using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AutoMapper;
 using MediatR;
 
@@ -14,6 +13,7 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Queries
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
+
         public GetProductCategoryByIdQueryHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
@@ -27,5 +27,12 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Queries
             var productCategoryDto = _mapper.Map<ProductCategoryDto>(productCategory);
             return productCategoryDto;
         }
+    }
+
+    public class ProductCategoryDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ImageUri { get; set; }
     }
 }

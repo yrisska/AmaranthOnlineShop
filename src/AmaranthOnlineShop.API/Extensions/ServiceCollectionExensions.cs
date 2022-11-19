@@ -1,10 +1,7 @@
-﻿using System.Reflection;
-using AmaranthOnlineShop.API.ScopeValidation;
-using AmaranthOnlineShop.Application;
+﻿using AmaranthOnlineShop.Application;
 using AmaranthOnlineShop.Application.Extensions;
-using AmaranthOnlineShop.Infrastructure.Persistence.Extensions;
+using AmaranthOnlineShop.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -50,14 +47,16 @@ namespace AmaranthOnlineShop.API.Extensions
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
-                    "access:admin-data",
-                    policy => policy.Requirements.Add(
-                        new HasScopeRequirement("access:admin-data", "https://" + configuration["Auth0:Domain"] + "/")
-                    )
+                    "access:admin-data", policy =>
+                        policy.RequireAssertion(context =>
+                            context.User.HasClaim(claim =>
+                                claim.Type == "permissions" &&
+                                claim.Value == "access:admin-data" &&
+                                claim.Issuer == "https://" + configuration["Auth0:Domain"] + "/"
+                            )
+                        )
                 );
             });
-
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
         }
 
         public static void AddSwagger(this IServiceCollection services, IConfiguration configuration)
@@ -77,14 +76,12 @@ namespace AmaranthOnlineShop.API.Extensions
                     BearerFormat = "JWT",
                     Flows = new OpenApiOAuthFlows
                     {
-                        Implicit = new OpenApiOAuthFlow
+                        AuthorizationCode = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri($"https://{configuration["Auth0:Domain"]}/oauth/token"),
-                            AuthorizationUrl = new Uri($"https://{configuration["Auth0:Domain"]}/authorize?audience={configuration["Auth0:Audience"]}"),
-                            Scopes = new Dictionary<string, string>
-                            {
-                                { "access:admin-data", "Access all admin-related endpoints" },
-                            }
+                            AuthorizationUrl =
+                                new Uri(
+                                    $"https://{configuration["Auth0:Domain"]}/authorize?audience={configuration["Auth0:Audience"]}")
                         }
                     }
                 });
@@ -93,15 +90,11 @@ namespace AmaranthOnlineShop.API.Extensions
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2"}
                         },
-                        new[] { "openid" }
+                        new[] {"openid"}
                     }
                 });
-
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //options.IncludeXmlComments(xmlPath);
             });
         }
     }

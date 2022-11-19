@@ -1,25 +1,17 @@
-﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
-using AmaranthOnlineShop.Application.Application.Products.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.Orders.Queries
 {
-    public class GetOrdersPagedQuery : IRequest<PaginatedResult<OrderDetailDto>>
+    public class GetOrdersPagedQuery : IRequest<PaginatedResult<OrderDetailPagedDto>>
     {
         public OrdersPagedRequest OrdersPagedRequest { get; set; }
     }
 
-    public class GetOrdersPagedQueryHandler : IRequestHandler<GetOrdersPagedQuery, PaginatedResult<OrderDetailDto>>
+    public class GetOrdersPagedQueryHandler : IRequestHandler<GetOrdersPagedQuery, PaginatedResult<OrderDetailPagedDto>>
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
@@ -30,11 +22,27 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
             _repository = repository;
         }
 
-        public async Task<PaginatedResult<OrderDetailDto>> Handle(GetOrdersPagedQuery request,
-            CancellationToken cancellationToken)
+        public async Task<PaginatedResult<OrderDetailPagedDto>> Handle(GetOrdersPagedQuery request, CancellationToken cancellationToken)
         {
-            var pagedProductsDto = await _repository.GetPagedData<OrderDetail, OrderDetailDto>(request.OrdersPagedRequest);
+            var pagedProductsDto = await _repository.GetPagedData<OrderDetail, OrderDetailPagedDto>(request.OrdersPagedRequest);
             return pagedProductsDto;
         }
+    }
+    public class OrderDetailPagedDto
+    {
+        public int Id { get; set; }
+        public decimal Total { get; set; }
+        public ICollection<OrderItemPagedDto> OrderItems { get; set; }
+        public OrderStatus Status { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Adress { get; set; }
+        public string Comments { get; set; }
+    }
+    public class OrderItemPagedDto
+    {
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
                 .HasMaxLength(1000);
             builder.Property(x => x.Price)
                 .HasPrecision(19, 4);
+            builder.Property(x => x.ImageUri)
+                .IsRequired(false);
 
             builder.HasKey(x => x.Id);
 

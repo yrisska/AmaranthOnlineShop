@@ -9,10 +9,9 @@ namespace AmaranthOnlineShop.Application.Common.Models
         public override int PageSize { get; set; } = 9;
         public override string SortingColumnName { get; set; } = "Id";
         public override string SortDirection { get; set; } = "asc";
-        public string? UserId { get; set; }
         public OrderStatus? Status { get; set; }
+        [JsonIgnore] public string? UserId { get; set; }
 
-        //Internal modifier prevents property from being a query parameter
         internal override RequestFilters? RequestFilters
         {
             get
@@ -21,12 +20,12 @@ namespace AmaranthOnlineShop.Application.Common.Models
 
                 if (!string.IsNullOrEmpty(UserId))
                 {
-                    filters.Add(new Filter { Path = "UserId", Value = UserId });
+                    filters.Add(new Filter {Path = "UserId", Value = UserId});
                 }
 
                 if (Status.HasValue)
                 {
-                    filters.Add(new Filter { Path = "Status", Value = Status.ToString() });
+                    filters.Add(new Filter {Path = "Status", Value = Status.Value.ToString()});
                 }
 
                 return new RequestFilters

@@ -1,5 +1,4 @@
-﻿using AmaranthOnlineShop.Application.Application.Products.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
@@ -15,6 +14,7 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
+
         public GetProductByIdQueryHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
@@ -28,5 +28,15 @@ namespace AmaranthOnlineShop.Application.Application.Products.Queries
             var productDto = _mapper.Map<ProductDto>(product);
             return productDto;
         }
+    }
+
+    public class ProductDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string ImageUri { get; set; }
+        public int ProductCategoryId { get; set; }
     }
 }

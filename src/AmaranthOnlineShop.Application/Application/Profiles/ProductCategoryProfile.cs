@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using AmaranthOnlineShop.Application.Application.ProductCategories.Commands;
+using AmaranthOnlineShop.Application.Application.ProductCategories.Queries;
 using AmaranthOnlineShop.Domain;
-using AmaranthOnlineShop.Application.Application.ProductCategories.Responses;
-using AmaranthOnlineShop.Application.Application.ProductCategories.Commands;
+using AutoMapper;
 
 namespace AmaranthOnlineShop.Application.Application.Profiles
 {
@@ -10,6 +10,13 @@ namespace AmaranthOnlineShop.Application.Application.Profiles
         public ProductCategoryProfile()
         {
             CreateMap<ProductCategory, ProductCategoryDto>();
+            CreateMap<ProductCategory, ProductCategoryPagedDto>();
+            CreateMap<ProductCategory, ProductCategoryListDto>();
+
+            CreateMap<ProductCategory, ProductCategoryCreatedDto>();
+            CreateMap<ProductCategory, ProductCategoryDeletedDto>();
+            CreateMap<ProductCategory, ProductCategoryUpdatedDto>();
+
             CreateMap<CreateProductCategoryCommand, ProductCategory>();
             CreateMap<UpdateProductCategoryCommand, ProductCategory>();
         }

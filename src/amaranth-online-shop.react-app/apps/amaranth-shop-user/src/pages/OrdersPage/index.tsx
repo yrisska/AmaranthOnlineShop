@@ -1,7 +1,8 @@
+import { OrdersPageContainer } from "@amaranth-online-shop.react-app/amaranth-shop-user-lib";
 
 const OrdersPage = () => {
   return (
-    <div>OrdersPage</div>
+    <OrdersPageContainer />
   );
 };
 

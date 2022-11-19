@@ -1,14 +1,7 @@
-﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Application.Application.Orders.Queries
 {
@@ -16,6 +9,7 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
     {
         public int Id { get; set; }
     }
+
     public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, OrderDetailDto>
     {
         private readonly IRepository _repository;
@@ -26,11 +20,31 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Queries
             _mapper = mapper;
             _repository = repository;
         }
+
         public async Task<OrderDetailDto> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
             var order = await _repository.GetByIdWithInclude<OrderDetail>(request.Id, x => x.OrderItems);
             var orderDto = _mapper.Map<OrderDetailDto>(order);
             return orderDto;
         }
+    }
+
+    public class OrderDetailDto
+    {
+        public int Id { get; set; }
+        public decimal Total { get; set; }
+        public ICollection<OrderItemDto> OrderItems { get; set; }
+        public OrderStatus Status { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Adress { get; set; }
+        public string Comments { get; set; }
+    }
+
+    public class OrderItemDto
+    {
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
     }
 }

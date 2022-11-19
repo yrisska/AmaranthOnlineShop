@@ -1,13 +1,13 @@
 ﻿using AmaranthOnlineShop.Application.Application.Orders.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Stripe;
 
 namespace AmaranthOnlineShop.API.Controllers
 {
     [Route("api/webhook")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class StripeWebHookController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -33,7 +33,7 @@ namespace AmaranthOnlineShop.API.Controllers
             var childData = PaymentIntent.FromJson(stripeJson);
             var metadata = childData.Metadata;
 
-            if (!metadata.TryGetValue("orderId", out string strOrderId))
+            if (!metadata.TryGetValue("orderId", out string? strOrderId) || string.IsNullOrEmpty(strOrderId))
             {
                 return BadRequest();
             }

@@ -108,6 +108,9 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<string>("ImageUri")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -193,6 +196,10 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ImageUri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -206,16 +213,19 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 1,
+                            ImageUri = "https://yrisska.blob.core.windows.net/images/category1.jpg",
                             Name = "Skin Care"
                         },
                         new
                         {
                             Id = 2,
+                            ImageUri = "https://yrisska.blob.core.windows.net/images/category2.webp",
                             Name = "Meal"
                         },
                         new
                         {
                             Id = 3,
+                            ImageUri = "https://yrisska.blob.core.windows.net/images/category3.jpg",
                             Name = "Cosmetics"
                         });
                 });

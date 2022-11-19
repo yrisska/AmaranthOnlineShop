@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, useTheme, Typography, Link } from "@mui/material";
+import { Avatar, Box, Button, Divider, Drawer, Grid, IconButton, useTheme, Typography, Link } from "@mui/material";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppRouteEnum, PublicRouteEnum } from "../../../types";
+import { PublicRouteEnum } from "../../../types";
 import { Link as RouterLink } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 

@@ -12,7 +12,6 @@ namespace AmaranthOnlineShop.API
             {
                 serverOptions.AddServerHeader = false;
                 serverOptions.AllowResponseHeaderCompression = true;
-                serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
             });
 
             builder.AddServices();
@@ -36,7 +35,6 @@ namespace AmaranthOnlineShop.API
                 );
             }
 
-            
             app.UseExceptionHandling();
             app.UseHttpsRedirection();
             app.UseAuthentication();

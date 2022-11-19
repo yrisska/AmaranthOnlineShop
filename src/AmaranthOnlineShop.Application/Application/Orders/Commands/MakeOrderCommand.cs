@@ -1,5 +1,4 @@
-﻿using AmaranthOnlineShop.Application.Application.Orders.Responses;
-using AmaranthOnlineShop.Application.Common.Interfaces;
+﻿using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Domain;
 using AutoMapper;
@@ -7,7 +6,7 @@ using MediatR;
 
 namespace AmaranthOnlineShop.Application.Application.Orders.Commands
 {
-    public class MakeOrderCommand : IRequest<PostOrderResponse>
+    public class MakeOrderCommand : IRequest<MakeOrderCommandResponse>
     {
         public ICollection<CartItem> CartItems { get; set; }
         public string FullName { get; set; }
@@ -18,7 +17,8 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
         public string Domain { get; set; }
         public string? UserId { get; set; }
     }
-    public class MakeOrderCommandHandler : IRequestHandler<MakeOrderCommand, PostOrderResponse>
+
+    public class MakeOrderCommandHandler : IRequestHandler<MakeOrderCommand, MakeOrderCommandResponse>
     {
         private readonly IPaymentProvider _paymentProvider;
         private readonly IRepository _repository;
@@ -30,12 +30,15 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<PostOrderResponse> Handle(MakeOrderCommand request, CancellationToken cancellationToken)
+
+        public async Task<MakeOrderCommandResponse> Handle(MakeOrderCommand request, CancellationToken cancellationToken)
         {
             var orderDetail = _mapper.Map<OrderDetail>(request);
             orderDetail.Status = OrderStatus.OrderPaymentDue;
 
-            var products = await _repository.GetRangeByIds<Product>(request.CartItems.Select(x => x.ProductId).ToArray());
+            var products =
+                await _repository.GetRangeByIds<Product>(request.CartItems.Select(x => x.ProductId).ToArray());
+
             var total = products.Aggregate(0m,
                 (x, y) => x + decimal.Round(y.Price * request.CartItems.First(z => z.ProductId == y.Id).Quantity, 2));
             orderDetail.Total = total;
@@ -50,10 +53,15 @@ namespace AmaranthOnlineShop.Application.Application.Orders.Commands
             await _repository.SaveChangesAsync();
 
             var redirectUrl = _paymentProvider.CreateCheckoutSession(orderDetail.Total, orderDetail.Id, request.Domain);
-            return new PostOrderResponse
+            return new MakeOrderCommandResponse
             {
                 RedirectUrl = redirectUrl,
             };
         }
+    }
+
+    public class MakeOrderCommandResponse
+    {
+        public string RedirectUrl { get; set; }
     }
 }

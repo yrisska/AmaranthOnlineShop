@@ -4,5 +4,6 @@ export type ProductPagedQuery = {
   sortingColumnName?: string,
   sortDirection?: string,
   productCategory?: string,
+  productCategoryId?: string,
   name?: string,
 };

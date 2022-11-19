@@ -1,4 +1,5 @@
 export type ProductCategoryDto = {
   id: number,
-  name: string
+  name: string,
+  imageUri: string,
 };

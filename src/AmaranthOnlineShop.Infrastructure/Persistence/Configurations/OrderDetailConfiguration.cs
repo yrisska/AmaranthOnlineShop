@@ -1,11 +1,6 @@
 ﻿using AmaranthOnlineShop.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
 {
@@ -30,6 +25,8 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
                 .HasMaxLength(1000);
             builder.Property(x => x.UserId)
                 .IsRequired(false);
+            builder.Property(x => x.Total)
+                .HasPrecision(19, 4);
 
             builder.HasMany(x => x.OrderItems)
                 .WithOne(x => x.OrderDetail)

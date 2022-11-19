@@ -3,4 +3,6 @@ export type ProductDto = {
   name: string,
   description: string,
   price: number,
+  imageUri: string,
+  productCategoryId: number,
 };

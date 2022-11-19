@@ -1,7 +1,6 @@
 ﻿using AmaranthOnlineShop.API.Middlewares.Models;
 using AmaranthOnlineShop.Application.Common.Exceptions;
 using FluentValidation;
-using Microsoft.Extensions.Hosting.Internal;
 using System.Net;
 
 namespace AmaranthOnlineShop.API.Middlewares

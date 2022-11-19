@@ -14,5 +14,10 @@ export const commonRoutes = [
     element: <ShopPage />,
     path: AppRouteEnum.SHOP,
     isAuth: false,
+  },
+  {
+    element: <ShopPage />,
+    path: AppRouteEnum.SHOP + "/:filter",
+    isAuth: false,
   }
 ];

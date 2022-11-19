@@ -5,7 +5,6 @@ using AmaranthOnlineShop.Application.Extensions;
 using AmaranthOnlineShop.Domain;
 using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -50,7 +49,8 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity> GetByIdWithInclude<TEntity>(int id, Expression<Func<TEntity, object>> include) where TEntity : BaseEntity
+        public async Task<TEntity> GetByIdWithInclude<TEntity>(int id, Expression<Func<TEntity, object>> include)
+            where TEntity : BaseEntity
         {
             return await _context.Set<TEntity>().Include(include).FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -67,24 +67,15 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : BaseEntity
-        {
-            await _context.Set<TEntity>().AddRangeAsync(entities);
-        }
-
         public async Task<List<TEntity>> GetRangeByIds<TEntity>(int[] ids) where TEntity : BaseEntity
         {
             return await _context.Set<TEntity>().Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetAllWithInclude<TEntity>(Expression<Func<TEntity, object>> include) where TEntity : BaseEntity
+        public async Task<List<TEntity>> GetAllWithInclude<TEntity>(Expression<Func<TEntity, object>> include)
+            where TEntity : BaseEntity
         {
             return await _context.Set<TEntity>().Include(include).ToListAsync();
-        }
-
-        public async Task<List<TEntity>> GetRangeByPredicateWithInclude<TEntity>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> include) where TEntity : BaseEntity
-        {
-            return await _context.Set<TEntity>().Include(include).Where(predicate).ToListAsync();
         }
     }
 }

@@ -41,6 +41,7 @@ namespace AmaranthOnlineShop.Application.Extensions
             var entities = query.Skip((pagedRequest.PageIndex - 1) * pagedRequest.PageSize).Take(pagedRequest.PageSize);
             return entities;
         }
+
         private static IOrderedQueryable<T> Sort<T>(this IQueryable<T> query, PagedRequest pagedRequest)
         {
             return query.OrderBy(pagedRequest.SortingColumnName + " " + pagedRequest.SortDirection);
@@ -62,7 +63,7 @@ namespace AmaranthOnlineShop.Application.Extensions
                     predicate.Append($" {requestFilters.LogicalOperator} ");
                 }
 
-                if (requestFilters.Filters[i].Path is "Status")
+                if (requestFilters.Filters[i].Path is "Status" || requestFilters.Filters[i].Path.EndsWith("id", StringComparison.OrdinalIgnoreCase))
                     predicate.Append(requestFilters.Filters[i].Path + $"=\"{requestFilters.Filters[i].Value}\"");
                 else
                     predicate.Append(requestFilters.Filters[i].Path + $".{nameof(string.Contains)}(@{i})");

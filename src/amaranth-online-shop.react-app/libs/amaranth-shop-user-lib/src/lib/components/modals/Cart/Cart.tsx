@@ -1,8 +1,8 @@
 import { Grid, Dialog, DialogTitle, DialogContent, Button, useMediaQuery, useTheme, IconButton, Divider, Typography, Box, TextField, Backdrop, CircularProgress } from "@mui/material";
-import { FC, Fragment, useEffect } from "react";
+import { ChangeEvent, FC, Fragment, useEffect, useState } from "react";
 import { CartProps } from "./Cart.types";
 import CloseIcon from "@mui/icons-material/Close";
-import { cartDecrementItem, cartIncrementItem, CartItemRequest, cartRemoveAll, cartRemoveItem, PostOrderRequest, selectCartItems, selectCartTotalPrice, useAppDispatch, useAppSelector, usePostOrderMutation } from "@amaranth-online-shop.react-app/redux";
+import { cartDecrementItem, cartIncrementItem, CartItemRequest, cartRemoveAll, cartRemoveItem, cartSetItemQuantity, PostOrderRequest, selectCartItems, selectCartTotalPrice, useAppDispatch, useAppSelector, usePostOrderMutation } from "@amaranth-online-shop.react-app/redux";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -13,6 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler } from "react-hook-form/dist/types";
 import { useAuth0 } from "@auth0/auth0-react";
+import { boolean } from "yup";
 
 const Cart: FC<CartProps> = ({ handleClose }) => {
 
@@ -26,13 +27,23 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
 
   const dispatch = useAppDispatch();
 
+  const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>, id: number) => {
+    const value = Number(e.target.value);
+    if (!value) {
+      return;
+    }
+    if (value < 1 || value > 20) {
+      return;
+    }
+    dispatch(cartSetItemQuantity({ id: id, value: value }));
+  };
   const { control, handleSubmit, formState: { errors } } = useForm<MakeOrderFormInputs>({
     resolver: yupResolver(makeOrderSchema)
   });
 
   const [postOrder, { isLoading, isSuccess, data: postOrderResponse }] = usePostOrderMutation();
 
-  const onSubmit: SubmitHandler<MakeOrderFormInputs> = async(data) => {
+  const onSubmit: SubmitHandler<MakeOrderFormInputs> = async (data) => {
     const postOrderRequest: PostOrderRequest = {
       cartItems: cartItems.map((x): CartItemRequest => ({
         productId: x.product.id,
@@ -110,8 +121,14 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                 {...cartStyles.cartContainer}
               >
                 <Grid
-                  {...cartStyles.flexEndItemContainer}
+                  {...cartStyles.utilityItemContainer}
                 >
+                  <Typography
+                    variant="overline"
+                    color="initial"
+                  >
+                    * Max quantity for one product is 20
+                  </Typography>
                   <Button
                     variant="outlined"
                     color="error"
@@ -129,11 +146,15 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                     >
                       <Grid
                         item
+                        container
+                        md={3}
                         xs={3}
+                        height="100%"
+                        alignContent="center"
                       >
                         <Box
                           component={"img"}
-                          src="https://es.com.ua/media/catalog/product/placeholder/default/default-product-image.png?auto=webp&format=png&width=2560&height=3200&fit=cover"
+                          src={item.product.imageUri}
                           sx={cartStyles.productImg}
                         />
                       </Grid>
@@ -158,15 +179,19 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                           >
                             <RemoveIcon />
                           </IconButton>
-                          <Typography
-                            variant="h5"
-                            color="initial"
-                          >
-                            {item.quantity}
-                          </Typography>
+                          <TextField
+                            variant="outlined"
+                            value={item.quantity}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleQuantityChange(e, item.product.id)}
+                            sx={{
+                              width: "30%",
+                            }}
+                            inputProps={{ style: { textAlign: "center" } }}
+                          />
                           <IconButton
                             aria-label="Increment item"
                             onClick={() => dispatch(cartIncrementItem(item.product.id))}
+                            disabled={item.quantity === 20}
                           >
                             <AddIcon />
                           </IconButton>
@@ -194,7 +219,8 @@ const Cart: FC<CartProps> = ({ handleClose }) => {
                   </Fragment>
                 ))}
                 <Grid
-                  {...cartStyles.flexEndItemContainer}
+                  {...cartStyles.utilityItemContainer}
+                  justifyContent="flex-end"
                 >
                   <Typography
                     variant="h5"
