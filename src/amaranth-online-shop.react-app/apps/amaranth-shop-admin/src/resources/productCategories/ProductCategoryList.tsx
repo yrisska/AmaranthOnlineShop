@@ -30,6 +30,7 @@ const ProductCategoryList = () => {
           <TextField source="name" />
           <ImageField
             source="imageUri"
+            label="Image"
             sortable={false}
           />
         </Datagrid>

@@ -52,6 +52,7 @@ const ProductList = () => {
             textAlign="left"
           />
           <ImageField
+            label="Image"
             source="imageUri"
             sortable={false}
           />

@@ -25,7 +25,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 
         const formData = new FormData();
         Object.keys(payload.data)
-          //.filter(x => !!payload.data[x as keyof CreateProductRequest])
           .forEach(x => formData.append(
             x,
             payload.data[x as keyof CreateProductRequest]
@@ -38,7 +37,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             payload.file.name
           );
         }
-
+        console.log(formData);
         return {
           url: "/products",
           method: "POST",

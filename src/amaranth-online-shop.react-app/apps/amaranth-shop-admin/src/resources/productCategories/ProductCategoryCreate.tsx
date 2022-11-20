@@ -1,17 +1,18 @@
-import { Create, SimpleForm, ReferenceInput, TextInput, NumberInput, ImageInput } from "react-admin";
+import { Create, SimpleForm, TextInput, ImageInput, ImageField } from "react-admin";
 
 const ProductCategoryCreate = () => {
   return (
     <Create>
       <SimpleForm>
         <TextInput source="name"/>
-        <TextInput source="description"/>
-        <NumberInput source="price"/>
-        <ReferenceInput
-          source="productCategoryId"
-          reference="product-categories"
-        />
-        <ImageInput source="imageFile"/>
+        <ImageInput
+          source="imageFile"
+          multiple={false}
+        >
+          <ImageField
+            source="src"
+          />
+        </ImageInput>
       </SimpleForm>
     </Create>
   );

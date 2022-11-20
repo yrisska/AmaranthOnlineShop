@@ -61,6 +61,7 @@ export const productProvider = (getAccessTokenSilently: (options?: GetTokenSilen
       resource, params
     ) => {
       const token = await getAccessTokenSilently();
+
       const result = store.dispatch(productsApiSlice.endpoints.createProduct.initiate({
         data: {
           name: params.data["name"],

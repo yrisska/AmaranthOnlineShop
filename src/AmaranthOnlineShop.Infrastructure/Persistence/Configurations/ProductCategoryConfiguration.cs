@@ -11,6 +11,9 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(100);
+            builder.Property(x => x.ImageUri)
+                .IsRequired(false);
+            
 
             builder.HasData(
                 new ProductCategory
