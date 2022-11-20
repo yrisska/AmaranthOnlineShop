@@ -45,7 +45,7 @@ namespace AmaranthOnlineShop.API.Controllers
         [HttpPost]
         [Authorize("access:admin-data")]
         public async Task<ProductCategoryCreatedDto> CreateProductCategory(
-            [FromQuery] CreateProductCategoryCommand productCategoryForCreateDto)
+            [FromForm] CreateProductCategoryCommand productCategoryForCreateDto)
         {
             var productCategoryCreatedDto = await _mediator.Send(productCategoryForCreateDto);
             return productCategoryCreatedDto;
@@ -54,7 +54,7 @@ namespace AmaranthOnlineShop.API.Controllers
         [HttpPut]
         [Authorize("access:admin-data")]
         public async Task<ProductCategoryUpdatedDto> UpdateProductCategory(
-            [FromQuery] UpdateProductCategoryCommand productCategoryForUpdate)
+            [FromForm] UpdateProductCategoryCommand productCategoryForUpdate)
         {
             var productCategoryUpdatedDto = await _mediator.Send(productCategoryForUpdate);
             return productCategoryUpdatedDto;

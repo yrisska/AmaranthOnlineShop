@@ -33,6 +33,10 @@ namespace AmaranthOnlineShop.API
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                 );
+                app.UseRequestLocalization(options =>
+                {
+                    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+                });
             }
 
             app.UseExceptionHandling();

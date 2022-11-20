@@ -42,4 +42,51 @@ export const productCategoryProvider = (getAccessTokenSilently: (options?: GetTo
       data: data
     })).catch(x => Promise.reject("Something went wrong"));
   },
+  update: async (
+    resource, params
+  ) => {
+    const token = await getAccessTokenSilently();
+    const result = store.dispatch(productCategoriesApiSlice.endpoints.updateProductCategory.initiate({
+      data: {
+        id: params.data["id"],
+        name: params.data["name"],
+      },
+      file: params.data["imageFile"] ? params.data["imageFile"]["rawFile"] : null,
+      token: token
+    })).unwrap();
+
+    return result.then(data => ({
+      data: data
+    })).catch(x => Promise.reject("Something went wrong"));
+  },
+
+  create: async (
+    resource, params
+  ) => {
+    const token = await getAccessTokenSilently();
+    const result = store.dispatch(productCategoriesApiSlice.endpoints.createProductCategory.initiate({
+      data: {
+        name: params.data["name"],
+      },
+      file: params.data["imageFile"] ? params.data["imageFile"]["rawFile"] : null,
+      token: token
+    })).unwrap();
+    
+    return result.then(data => ({
+      data: data
+    })).catch(x => Promise.reject("Something went wrong"));
+  },
+
+  delete: async (
+    resource, params
+  ) => {
+    console.log(params);
+    const token = await getAccessTokenSilently();
+    const result = store.dispatch(productCategoriesApiSlice.endpoints.deleteProductCategory.initiate({ id: params.id.toString(), token: token })).unwrap();
+
+    console.log(token);
+    return result.then(data => ({
+      data: data
+    })).catch(x => Promise.reject("Something went wrong"));
+  },
 } as DataProvider);

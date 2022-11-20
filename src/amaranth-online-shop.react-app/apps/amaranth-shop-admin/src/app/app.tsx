@@ -3,7 +3,7 @@
 import { environment } from "../environments/environment";
 import { CssBaseline } from "@mui/material";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { AdminComponent } from "../components/AdminComponent";
+import { AdminComponent } from "../admin/AdminComponent";
 
 export function App() {
 

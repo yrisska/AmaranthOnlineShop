@@ -3,6 +3,7 @@ using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmaranthOnlineShop.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AmaranthOnlineShopDbContext))]
-    partial class AmaranthOnlineShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221120155905_NullableCategoriesImageField")]
+    partial class NullableCategoriesImageField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

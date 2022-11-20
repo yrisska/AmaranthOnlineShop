@@ -95,7 +95,7 @@ export const ShopPageContainer = () => {
             variant="h1"
             color="primary"
           >
-            Welcome to Shop!
+            Welcome to the Shop!
           </Typography>
         </Grid>
         {
