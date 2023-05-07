@@ -9,7 +9,7 @@ import ProductCategoryList from "../resources/productCategories/ProductCategoryL
 import ProductCreate from "../resources/products/ProductCreate";
 import ProductEdit from "../resources/products/ProductEdit";
 import ProductList from "../resources/products/ProductList";
-import InventoryIcon from "@mui/icons-material/Inventory"
+import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
 
 export const AdminComponent = () => {
