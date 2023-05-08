@@ -24,5 +24,7 @@ namespace AmaranthOnlineShop.Application.Common.Interfaces
             where TEntity : BaseEntity where TDto : class;
 
         Task<List<TEntity>> GetRangeByIds<TEntity>(int[] ids) where TEntity : BaseEntity;
+
+        int AddProductCategoryWithProcedure(ProductCategory productCategory);
     }
 }

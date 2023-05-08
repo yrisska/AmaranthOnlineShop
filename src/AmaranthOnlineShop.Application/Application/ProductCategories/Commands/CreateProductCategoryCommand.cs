@@ -29,8 +29,6 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
         public async Task<ProductCategoryCreatedDto> Handle(CreateProductCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = _mapper.Map<ProductCategory>(request);
-            _repository.Add(category);
-            await _repository.SaveChangesAsync();
 
             if (request.ImageFile != null)
             {
@@ -43,6 +41,8 @@ namespace AmaranthOnlineShop.Application.Application.ProductCategories.Commands
             {
                 category.ImageUri = _cloudStorage.Placeholder;
             }
+
+            category.Id = _repository.AddProductCategoryWithProcedure(category);
 
             await _repository.SaveChangesAsync();
 

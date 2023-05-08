@@ -1,4 +1,5 @@
-﻿using AmaranthOnlineShop.Application.Common.Exceptions;
+﻿using System.Data;
+using AmaranthOnlineShop.Application.Common.Exceptions;
 using AmaranthOnlineShop.Application.Common.Interfaces;
 using AmaranthOnlineShop.Application.Common.Models;
 using AmaranthOnlineShop.Application.Extensions;
@@ -7,6 +8,7 @@ using AmaranthOnlineShop.Infrastructure.Persistence.Contexts;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Microsoft.Data.SqlClient;
 
 namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
 {
@@ -25,6 +27,7 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
         {
             _context.Set<TEntity>().Add(entity);
         }
+
 
         public async Task<TEntity> Delete<TEntity>(int id) where TEntity : BaseEntity
         {
@@ -76,6 +79,13 @@ namespace AmaranthOnlineShop.Infrastructure.Persistence.Repositories
             where TEntity : BaseEntity
         {
             return await _context.Set<TEntity>().Include(include).ToListAsync();
+        }
+
+        public int AddProductCategoryWithProcedure(ProductCategory productCategory)
+        {
+            var @param = new SqlParameter("@ReturnValue", SqlDbType.Int) {Direction = ParameterDirection.Output};
+            var result = _context.Database.ExecuteSqlRaw($"EXEC @ReturnValue = dbo.add_product_category @Name = '{productCategory.Name}', @Image_uri = '{productCategory.ImageUri}'", @param);
+            return (int) @param.Value;
         }
     }
 }
